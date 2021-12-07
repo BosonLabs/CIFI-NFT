@@ -722,15 +722,11 @@ useEffect(()=>{dbcallsalealgo()},[])
 
 
 const dbcallalgo=async()=>{
-  console.log("inside dbcallalgo function")
-  
+  console.log("inside dbcallalgo function")  
   let req = [];
-
   if(localStorage.getItem("wallet")  === null || localStorage.getItem("wallet")  === "" || localStorage.getItem("wallet")  === " " || localStorage.getItem("wallet") === 'undefined' || localStorage.getItem("wallet") === ''){
-
   }
   else{
-
     let getalgo=localStorage.getItem("wallet");    
     //let kreq =[];
     firebase.database().ref("imagerefAlgo").child(getalgo).on("value", (data) => {
@@ -774,10 +770,8 @@ const dbcallalgo=async()=>{
                   avatar :value.imageUrl,
                 },
               ],
-            },
-          
+            },          
           )
-
           //image:images/content/card-pic-1.jpg
           //image2x: "/images/content/card-pic-1@2x.jpg",
 
@@ -789,7 +783,6 @@ const dbcallalgo=async()=>{
   
   }
   //console.log("acc",getalgo)
-
 }
 
 useEffect(()=>{dbcallalgo()},[])

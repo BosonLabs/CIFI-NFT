@@ -17,7 +17,8 @@ import ModalList from "../../components/ModalList";
 import FolowStepsList from "./FolowStepList";
 import ModalListmain from "../../components/ModalListmain";
 import FolowStepsListmain from "./FolowStepsListmain";
-
+import MyAlgoConnect from '@randlabs/myalgo-connect';
+const myAlgoWallet = new MyAlgoConnect();
 
 
 
@@ -267,6 +268,17 @@ console.error(e);
 }
 
 
+const algowallet=async()=>{
+  const myAlgoConnect = new MyAlgoConnect();
+  const accountswall = await myAlgoWallet.connect();
+  const addresseswall = accountswall.map(accountswall => accountswall.address);
+  console.log("one",myAlgoConnect)
+  console.log("oneacc",accountswall)
+  console.log("oneadd",addresseswall)
+  setisListtry(accountswall)
+  setIsOpenlisttry(true)  
+}
+
 
 
 
@@ -282,6 +294,10 @@ console.error(e);
           </Link>
         </div> */}
 
+<button className={cn("button", styles.button)} onClick={()=>algowallet()} id="listacc">
+                Algo-Wallet TestNet 
+</button>                
+<br/><br/>
         {isListtrys === null || isListtrys === "" || isListtrys === undefined ? <>
                 
                 <button className={cn("button", styles.button)} onClick={()=>algosignertry()} id="listacc">

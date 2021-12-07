@@ -62,11 +62,7 @@ const Search = () => {
     if(localStorage.getItem("wallet")  === null || localStorage.getItem("wallet")  === "" || localStorage.getItem("wallet")  === " " || localStorage.getItem("wallet") === 'undefined' || localStorage.getItem("wallet") === '' || localStorage.getItem("wallet") === "0x"){
       alert("please connect your wallet")
     }
-    else{    
-    //let getalgo=localStorage.getItem("wallet");
-    //let req = [];  
-    // if(getalgo === ""){  
-    // }else{
+    else{        
       let req = [];
       console.log("req",req)
    // let req2 = [];//imagerefexplore//
@@ -75,11 +71,7 @@ const Search = () => {
         data.forEach((d) => {
           //req2.push(a.val())          
           const a=d.val();
-          Object.keys(a).map(async(b)=>{                            
-            //console.log(a[b].id);          
-            //const nftdata = await fetch(`https://demonft-2e778-default-rtdb.firebaseio.com/Algoopt/${localStorage.getItem("wallet")}/${a[b].applicationid}/opt.json`);      
-            //const resdata1 = await nftdata.json();        
-            //console.log("restdata1",resdata1)        
+          Object.keys(a).map(async(b)=>{                                        
               req.push({
                 title: a[b].id,
                 price: a[b].priceSet,
@@ -121,92 +113,6 @@ const Search = () => {
 }
 useEffect(()=>{dbcallsaleal()},[])
 
-  // async function readLocalState(client, account, index){
-  //   let accountInfoResponse = await client.accountInformation(account).do();
-  //   for (let i = 0; i < accountInfoResponse['apps-local-state'].length; i++) { 
-  //       if (accountInfoResponse['apps-local-state'][i].id === index) {
-  //           console.log("User's local state: optted checked");
-  //           // for (let n = 0; n < accountInfoResponse['apps-local-state'][i][`key-value`].length; n++) {
-  //           //     let enc = accountInfoResponse['apps-local-state'][i][`key-value`][n];
-  //           //     var decodedString = window.atob(enc.key);
-  //           //     if(decodedString === "B"){
-  //           //       setBid(enc.value.uint);
-  //           //     }
-  //           // }
-  //       }
-  //       else{
-  //         console.log("User's local state: not opt checked");
-  //       }
-  //   }
-  // }
-
-  // const dbcallsalealgo=async()=>{
-  //   console.log("inside dbcallsalealgo function")    
-  //   let req = [];  
-  //   if(localStorage.getItem("walletalgo") === null || localStorage.getItem("walletalgo") === "0x"){  
-  //   }else{      
-  //     let getalgo=localStorage.getItem("walletalgo");
-      
-  //     //let kreq =[];
-  //     firebase.database().ref("imagerefexploreoneAlgos").child(getalgo).on("value", (data) => {
-  //       if (data) {
-  //         data.forEach((d) => {
-  //           //console.log("keycheck",d.key)
-  //           let value=d.val();
-  //           req.push(
-              
-  //             {
-  //             title: value.id,
-  //             price: value.priceSet,
-  //             highestBid: value.keyId,
-  //             counter:value.userName ,
-  //             //bid: 'New bid <span role="img" aria-label="fire">🔥</span>',
-  //             bid:value.ownerAddress,
-  //             image: value.imageUrl,
-  //             image2x: value.paramsdb,
-  //             category: value.privatekey,
-  //             categoryText: value.cAddress,
-  //             //purchasing !
-  //             url: value.history,
-  //             date:value.datesets,
-  //             description:value.description,
-  //             extra:value.extra1,
-  //             ipfsurl:value.ipfsUrl,
-  //             previousaddress:value.previousoaddress,
-  //             soldd:value.soldd,
-  //             whois:value.whois,
-  //             users: [                
-  //               {
-  //                 avatar: "/images/content/avatar-4.jpg",
-  //               },
-  //             ],
-  //             },
-            
-  //           )
-  //         });        
-  //       }
-  //     });
-  //     setgetImgreffalgosale(req);
-    
-  //   }
-  //   console.log("acc",getImgreffalgosale)
-  
-  // }
-  
-  // useEffect(()=>{dbcallsalealgo()},[])
-  
-
-  // const handleSubmit = (e) => {
-
-  //   if(searchTerm === '') return getI
-  //   let data= getI.filter((val)=>{
-  //     return val.counter.toLowerCase().trim().includes(searchTerm.toLowerCase().trim())
-      
-  //   })
-  //   //console.log('returndata',data)
-  //   return data;    
-  // };
-
   const STEP = 0.1;
   const MIN = 0.01;
   const MAX = 10;
@@ -231,10 +137,7 @@ useEffect(()=>{dbcallsaleal()},[])
           <form
             className={styles.search}
             action=""            
-          >
-
-{/* onSubmit={() => handleSubmit()} */}
-            
+          >            
             <input            
               className={styles.input}
               type="text"
@@ -244,27 +147,8 @@ useEffect(()=>{dbcallsaleal()},[])
               name="search"
               placeholder="Search ..."
               required
-            />
-            {/* <button className={styles.result}>
-              <Icon name="search" size="16" />
-            </button> */}
-          </form>
-
-          {/* {
-        searchTerm !== '' &&
-      <>
-      {handleSubmit().map((val,key)=>{
-        
-        return (
-        <div className='user' key={key}>
-          <h5 onClick={()=>setSearchTerm(val.counter)} style={{cursor:'pointer'}}>{val.counter}</h5>
-        </div>
-        )
-      })}
-      </>
-} */}
-
-          
+            />            
+          </form>          
         </div>
         <div className={styles.sorting}>
           <div className={styles.dropdown}>
@@ -280,11 +164,7 @@ useEffect(()=>{dbcallsaleal()},[])
               <button
                 className={cn(styles.link, {
                   [styles.active]: index === activeIndex,
-                })}                                
-                //onClick={() =>                  
-                  //console.log("index",index)
-                  //dbcallsaleal(index)
-                //}
+                })}                                                
                 key={index}
               >
                 {x}
@@ -401,34 +281,3 @@ useEffect(()=>{dbcallsaleal()},[])
 };
 
 export default Search;
-
-
-{/* <div className={styles.group}>
-              <div className={styles.item}>
-                <div className={styles.label}>Price</div>
-                <Dropdown
-                  className={styles.dropdown}
-                  value={likes}
-                  setValue={setLikes}
-                  options={likesOptions}
-                />
-              </div>
-              <div className={styles.item}>
-                <div className={styles.label}>Color</div>
-                <Dropdown
-                  className={styles.dropdown}
-                  value={color}
-                  setValue={setColor}
-                  options={colorOptions}
-                />
-              </div>
-              <div className={styles.item}>
-                <div className={styles.label}>Creator</div>
-                <Dropdown
-                  className={styles.dropdown}
-                  value={creator}
-                  setValue={setCreator}
-                  options={creatorOptions}
-                />
-              </div>
-            </div> */}

@@ -18,9 +18,11 @@ import approvalProgramSourceInitial from "../../approve";
 import clearProgramSource from "../../clearstate";
 import data from "../../escrow";
 import axios from 'axios';
+import MyAlgoConnect from '@randlabs/myalgo-connect';
+const myAlgoWallet = new MyAlgoConnect();
 
 const Upload = () => {
-
+  
   const [selected, setSelected] = React.useState("Minor League");
   const [selectedImg, setSelectedImg] = React.useState("");
   console.log("Selec",selectedImg)
@@ -116,15 +118,10 @@ const Upload = () => {
     else{
       setSelected2("Others");
       setSelectedImg("");
-    }
-    
+    }    
   };
-
   console.log("Sel2",selected2)
-
-
   const [selected3, setSelected3] = React.useState("Award");
-
   const changeSelectOptionHandler3 = (event) => {
     setSelected3(event.target.value);
   };
@@ -379,121 +376,42 @@ algodClient.healthCheck().do()
 
         }
         else{
-let accounts;
-let txasset;
-let txx;
+setIsOpens(true)
 const server = "https://testnet-algorand.api.purestake.io/ps2";
 const port = "";  
 const token = {
       'X-API-key' : 'SVsJKi8vBM1RwK1HEuwhU20hYmwFJelk8bagKPin',
 }
-const baseServer = "https://testnet-algorand.api.purestake.io/idx2";    
-let indexerClient = new algosdk.Indexer(token, baseServer, port);
-
-let algodClient = new algosdk.Algodv2(token, server, port);
-AlgoSigner.connect()
-.then((d) => {
-console.log("tested1")
-algodClient.healthCheck().do()
-.then(d => { 
-  
-  AlgoSigner.accounts({
-    ledger: 'TestNet'
-  })
-  .then((d) => {
-    setIsOpens(true)
-    console.log("tested2",d)
-    accounts = d;
-    console.log("algoacc",localStorage.getItem("wallet"))
-    algodClient.getTransactionParams().do()
-.then((d) => {
-  let txParamsJS = d;
-  console.log("txparamsJS",txParamsJS)
-  const txn = algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({    
-    from: localStorage.getItem("wallet"),
-    assetName: tname,
-    unitName: tb,
-    total: 1,
-    decimals: 0,
-    note: AlgoSigner.encoding.stringToByteArray("nothing"),
-    //manager:lsig.address(),
-    manager:localStorage.getItem("wallet"),
-    reserve:localStorage.getItem("wallet"),
-    freeze: localStorage.getItem("wallet"),
-    clawback:localStorage.getItem("wallet"),
-    suggestedParams: txParamsJS
-  });
-  console.log("txnprint",txn)
-  // Use the AlgoSigner encoding library to make the transactions base64
-  const txn_b64 = AlgoSigner.encoding.msgpackToBase64(txn.toByte());
-  
-  AlgoSigner.signTxn([{txn: txn_b64}])
-  .then((d) => {
-    console.log("signTx",d)
-    let signedTxs = d;
-    let signCodeElem = JSON.stringify(d, null, 2);
-    console.log("signcoderElem",signCodeElem)
-
-    AlgoSigner.send({
-      ledger: 'TestNet',
-      tx: signedTxs[0].blob
-    })
-    .then(async(d) => {
-      txasset = d.txId;
-      setassetid(d.txId)
-      txx=d;
-      console.log("txidprint",txasset)
-      console.log("alldata",d)
-      await waitForConfirmation(algodClient, d.txId);
-      AlgoSigner.algod({
-        ledger: 'TestNet',
-        path: '/v2/transactions/pending/' + txasset
-      })
-      .then(async(d) => {
-        //new code addedd
-        let ptx = await algodClient.pendingTransactionInformation(txx.txId).do();
-        let assetID = ptx["asset-index"];
-        console.log("pendingass",assetID);        
-        console.log("pending",d);        
-        await sleep(1000)
-        //checkurl(assetID);
-         creatapplication(assetID,txx.txId);
-        //console.log("before",tx.txId)        
-        
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-    })
-    .catch((e) => {
-      console.error(e);
-    });
-
-  })
-  .catch((e) => {
-    console.error(e);
-  });
-})
-.catch((e) => {
-  console.error(e);
-});
-  })
-  .catch((e) => {
-    console.error(e);
-  });
-
-})
-.catch(e => { 
-  console.error(e); 
+let algodclient = new algosdk.Algodv2(token, server, port);
+const params = await algodclient.getTransactionParams().do();
+params.fee = 1000;
+params.flatFee = true;
+const myAlgoConnect = new MyAlgoConnect();
+//const accountswall = await myAlgoWallet.connect();
+//const addresseswall = accountswall.map(accountswall => accountswall.address);
+const txn = algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({    
+  from:localStorage.getItem('wallet'),
+  assetName: tname,
+  unitName: tb,
+  total: 1,
+  decimals: 0,
+  note: AlgoSigner.encoding.stringToByteArray("nothing"),
+  //manager:lsig.address(),
+  manager:localStorage.getItem('wallet'),
+  reserve:localStorage.getItem('wallet'),
+  freeze:localStorage.getItem('wallet'),
+  clawback:localStorage.getItem('wallet'),
+  suggestedParams: params
 });
 
-
-})
-.catch((e) => {
-  console.error(e);
-});
-
-
+const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
+const response = await algodclient.sendRawTransaction(signedTxn.blob).do();
+console.log("optresponse",response)
+await waitForConfirmation(algodclient,response.txId);
+let ptx = await algodclient.pendingTransactionInformation(response.txId).do();
+let assetID = ptx["asset-index"];
+console.log("pendingass",assetID);        
+appoptin(assetID,response.txId,localStorage.getItem('wallet'))
         }
     }
 }
@@ -536,8 +454,8 @@ const creatapplication=async(idget,txxid)=>{
   // declare application state storage (immutable)
   let localInts = 1;
   let localBytes = 0;
-  let globalInts = 4;
-  let globalBytes = 3;
+  let globalInts = 0;
+  let globalBytes = 2;
    
   // helper function to compile program source  
   async function compileProgram(client, programSource) {
@@ -601,10 +519,7 @@ await waitForConfirmation(client, txId);
       let transactionResponse = await client.pendingTransactionInformation(txId).do();
       let appId = transactionResponse['application-index'];
       console.log("Created new app-id: ",appId);
-
-      //escrow steps 
-
-      
+      //escrow steps       
                     //escrow update application 
                     (async () => {
                       const tokenin = {
@@ -799,95 +714,6 @@ algodClientup.healthCheck().do()
            await waitForConfirmation(algodclient, trans.txId);
             console.log("signed")
 
-            //db added here
- 
-
-
-
-    let ref2=fireDb.database().ref(`imagerefAlgo/${localStorage.getItem("wallet")}`);
-    let ref22=fireDb.database().ref(`imagerefAlgolt`);   
-                  let dateset=new Date().toDateString();
-                  console.log("dateget",dateset)
-                  const db = ref2.push().key;                         
-                  const db2 = ref22.push().key;                         
-                  console.log("dbcheck",db)
-                  ref2.child(db).set({id:idgetapp,imageUrl:Img,priceSet:"",cAddress:assetidgets,keyId:db,userName:tname,userSymbol:"ALGOS",
-                  ipfsUrl:Img,ownerAddress:localStorage.getItem("wallet"),soldd:"",extra1:"",previousoaddress:"",datesets:dateset,
-                  whois:'',
-                  league:selected,team:selected2,type:selected3,
-                  teamlogo:selectedImg,dimen:selected4,description:tdescription,history:"",Mnemonic:"",applicationid:appId,usdcids:usdcid,escrowaddress:lsig.address()})
-                  .then(()=>{
-                  ref22.child(db).set({id:idgetapp,imageUrl:Img,priceSet:"",cAddress:assetidgets,keyId:db,
-                  userName:tname,userSymbol:"ALGOS",
-                  ipfsUrl:Img,ownerAddress:localStorage.getItem("wallet"),soldd:"",extra1:"",
-                  previousoaddress:"",datesets:dateset,whois:'',
-                  league:selected,team:selected2,type:selected3,teamlogo:selectedImg,dimen:selected4,
-                  description:tdescription,history:"",Mnemonic:"",applicationid:appId,usdcids:usdcid,escrowaddress:lsig.address()})
-                  .then(()=>{     
-            //add pinata here
-
-            //pinata
-
-//const axios = require('axios');
-let pinataApiKey='88348e7ce84879e143e1';
-let pinataSecretApiKey='e4e8071ff66386726f9fe1aebf2d3235a9f88ceb4468d4be069591eb78d4bf6f';
-const pinataSDK = require('@pinata/sdk');
-const pinata = pinataSDK(pinataApiKey, pinataSecretApiKey);
-            pinata.testAuthentication().then((result) => {
-            //handle successful authentication here
-            console.log(result);  
-            let ge=ipfsHash;
-            console.log("ipfsHash",ipfsHash);
-                    const body = {
-                        message: ge
-                    };
-                    const options = {
-                        pinataMetadata: {
-                            name: tname,
-                            keyvalues: {
-                                customKey: 'customValue',
-                                customKey2: 'customValue2'
-                            }
-                        },
-                        pinataOptions: {
-                            cidVersion: 0
-                        }
-                    };
-                    pinata.pinJSONToIPFS(body, options).then((result) => {
-                        //handle results here
-                        console.log(result);
-                        console.log("jsonresult")
-                        //setVisibleModal(false)
-                        //setIsOpen(true);
-                        //setIsOpens(false)
-                        //setIsOpen(true);
-
-            setIsOpens(false)
-            setIsOpen(true);
-            return appId;
-  
-                      
-                      }).catch((err) => {
-                          //handle error here
-                          console.log(err);
-                      });
-  
-  
-                    }).catch((err) => {
-                        //handle error here
-                        console.log(err);
-                    });
-        
-                    //end pinata
-
-            //end pinata here
-            
-                    
-                  })              
-                  })            
-
-
-            //end db here
             
         })
         .catch((e) => {
@@ -1075,108 +901,114 @@ const nocallof=()=>{
   alert("please wait .....")
 }
 
-const inserturl=()=>{
-  // axios.get('https://jsonplaceholder.typicode.com/posts/')
-  //     .then(res => {
-  //       const emps = res.data;                
-  //       console.log(emps);
-  //     })
-const posts = {
-  "ipAddress": "test7updatejs",
-  "algoAddress": "test",
-  "networkType": "n7js",
-  "walletType": "w7js",
-  "twitterName": "t7js",
-  "profileURL": "p7updatedjs",
-  "profileName" :"profilename7js",
-  "accountType" :"addessType7updatedjs"
-}
-axios.post('http://13.59.127.1:42100/algoapi/v1/userinfo', posts)
-.then(res => console.log(res.data));
-}
+const appoptin=async(assetID,responsetxId,addresseswall)=>{
+  const algosdk = require('algosdk');  
+  const algodclient = new algosdk.Algodv2('', 'https://api.testnet.algoexplorer.io', '');
+  const myAlgoConnect = new MyAlgoConnect();
+  let appId="49393545";
+  try {
+    //const accounts = await myAlgoWallet.connect();
+    //const addresses = accounts.map(account => account.address);
+    //console.log("addressget",addresses)
+    //localStorage.getItem('wallet',addresses[0])
+    const params = await algodclient.getTransactionParams().do();
+  let transoptin = algosdk.makeApplicationOptInTxnFromObject({
+    from: localStorage.getItem('wallet'),      
+    appIndex:parseInt(appId),
+    note: undefined,
+    suggestedParams: params
+    });
 
-const updateurl=()=>{  
-const posts = {
-    userId: 1,
-    title:"hello test",
-    body:"body test",  
-}
-//https://jsonplaceholder.typicode.com/update/1
-//http://dummy.restapiexample.com/api/v1/employees/101
-axios.put('https://jsonplaceholder.typicode.com/update/1', posts)
-.then(res => console.log(res.data));
-}
-
-const deleteurl=()=>{
-const posts = {
-    userId: 1,
-    title:"hello test",
-    body:"body test",  
-}
-axios.delete('https://jsonplaceholder.typicode.com/delete/1', posts)
-.then(res => console.log(res.data));
-}
-
-// headers:{
-//   Accept: 'application/json',
-//  'Content-Type': 'application/json'      
-// }
-
-
-const selecturl2=async()=>{
-  const res=await fetch('http://18.116.10.136:42101/irisapi/v1/userinfo/address1 Updated');
-  const data=await res.json();
-  console.log("Dataprint",data)
-}
-const selecturl=()=>{  
-  axios.get('http://18.116.10.136:42101/irisapi/v1/userinfo/address1 Updated',{
-    headers: {
-      "Access-Control-Allow-Headers" : "Content-Type",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
-  },
-    })
- .then(response => {     
-     console.log("ResponseData",response.data);
-  })
- .catch((error) => {
-     console.log('error ' + error);
-  });
+  const signedTxn = await myAlgoConnect.signTransaction(transoptin.toByte());
+  const response = await algodclient.sendRawTransaction(signedTxn.blob).do();
+  console.log("optresponse",response)  
+  storedb(assetID,responsetxId,addresseswall);
   }
+  catch (err) {
+    console.error(err);    
+    storedb(assetID,responsetxId,addresseswall);
+  }
+}
 
+const storedb=async(assetID,responsetxId,addresseswall)=>{
 
+  console.log("addresswall",addresseswall)
+  console.log("assetId",assetID)
+  console.log("Img",Img)
+  console.log("tname",tname)  
+              //db added here 
+              let appId="49393545";
+              let ref2=fireDb.database().ref(`imagerefAlgo/${addresseswall}`);
+              let ref22=fireDb.database().ref(`imagerefAlgolt`);   
+                            let dateset=new Date().toDateString();
+                            console.log("dateget",dateset)
+                            const db = ref2.push().key;                         
+                            //const db2 = ref22.push().key;                         
+                            console.log("dbcheck",db)
+                            ref2.child(db).set({id:assetID,imageUrl:Img,priceSet:"",cAddress:"",keyId:db,userName:tname,userSymbol:"ALGOS",
+                            ipfsUrl:Img,ownerAddress:addresseswall,soldd:"",extra1:"",previousoaddress:"",datesets:dateset,
+                            whois:'',
+                            league:selected,team:selected2,type:selected3,
+                            teamlogo:selectedImg,dimen:selected4,description:tdescription,history:"",Mnemonic:"",applicationid:appId,usdcids:assetID,escrowaddress:""})
+                            .then(()=>{
+                            ref22.child(db).set({id:assetID,imageUrl:Img,priceSet:"",cAddress:"",keyId:db,
+                            userName:tname,userSymbol:"ALGOS",
+                            ipfsUrl:Img,ownerAddress:addresseswall,soldd:"",extra1:"",
+                            previousoaddress:"",datesets:dateset,whois:'',
+                            league:selected,team:selected2,type:selected3,teamlogo:selectedImg,dimen:selected4,
+                            description:tdescription,history:"",Mnemonic:"",applicationid:appId,usdcids:assetID,escrowaddress:""})
+                            .then(()=>{     
+                      //add pinata here          
+                      //pinata          
+          //const axios = require('axios');
+          // let pinataApiKey='88348e7ce84879e143e1';
+          // let pinataSecretApiKey='e4e8071ff66386726f9fe1aebf2d3235a9f88ceb4468d4be069591eb78d4bf6f';
+          const pinataApiKey = "221cfff25de18e88d3d0";
+          const pinataSecretApiKey = "ddffffed103d82a6296a378c80ddd2b4280b0d8a51e6922122fd3817accb45ba";
+          const pinataSDK = require('@pinata/sdk');
+          const pinata = pinataSDK(pinataApiKey, pinataSecretApiKey);
+                      pinata.testAuthentication().then((result) => {
+                      //handle successful authentication here
+                      console.log(result);  
+                      let ge=ipfsHash;
+                      console.log("ipfsHash",ipfsHash);
+                              const body = {
+                                  message: ge
+                              };
+                              const options = {
+                                  pinataMetadata: {
+                                      name: tname,
+                                      keyvalues: {
+                                          customKey: 'customValue',
+                                          customKey2: 'customValue2'
+                                      }
+                                  },
+                                  pinataOptions: {
+                                      cidVersion: 0
+                                  }
+                              };
+                              pinata.pinJSONToIPFS(body, options).then((result) => {
+                                  //handle results here
+                                  console.log(result);
+                                  console.log("jsonresult")                                            
+                      setIsOpens(false)
+                      setIsOpen(true);
+                      //return appId;                                            
+                                }).catch((err) => {
+                                    //handle error here
+                                    console.log(err);
+                                });                        
+                              }).catch((err) => {
+                                  //handle error here
+                                  console.log(err);
+                              });                  
+                              //end pinata          
+                      //end pinata here                      
+                              
+                            })              
+                            })                                
   
-
-// useEffect(() => {
-//   const fetchPosts = async () => {    
-//   // fetch('https://jsonplaceholder.typicode.com/posts/')
-//   // .then((response) => response.json())
-//   // .then((json) => console.log("demojson",json)
-//   // );   
-//   //https://jsonplaceholder.typicode.com/posts/  
-
-  
-//   //
-//   const res = await axios.get('http://13.59.127.1:42100/algoapi/v1/userinfo/address7Updatednew', {
-//   headers: {
-//     'Accept': 'application/json',
-//     'Content-Type': 'application/json',
-//     //'Authorization': 'Bearer'
-//   }    
-// }).catch(err=>err);
-// console.log("HeaderConsole",res)
-//   // axios.get('http://13.59.127.1:42100/algoapi/v1/userinfo/address7Updatednew')
-//   //     .then(res => {
-//   //       const emps = res.data;                
-//   //       setjsonfile(emps)
-//   //       console.log(emps);
-//   //     }) 
-//   };
-//   fetchPosts();
-// }, []);
-
-
-
+}
 
   return (
     <>
@@ -1352,7 +1184,7 @@ const selecturl=()=>{
       </Modald>
       <Modald visible={isOpens} >
         <FolowStep className={styles.steps} />
-      </Modald>      
+      </Modald>                
     </>
   );
 };
