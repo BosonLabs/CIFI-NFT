@@ -211,6 +211,7 @@ let transaction1 = algosdk.makeApplicationNoOpTxnFromObject({
   suggestedParams:params, 
   appIndex:parseInt(appId), 
   appArgs:appArgs})
+  
 let transaction2 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
 from: localStorage.getItem('wallet'),
 to: lsig.address(),
@@ -380,16 +381,16 @@ setIsOpenss(false)
         </div>
       </Link>
     </div>
-    <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
+  <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
     <FolowStepsd className={styles.steps} viewhistory={historydb}/>
   </Modald>
 
-  <Modald visible={isOpens} onClose={() => setIsOpens(false)}>
-<FolowStepsdr className={styles.steps} onSub={()=>onSub}/>
+<Modald visible={isOpens} onClose={() => setIsOpens(false)}>
+    <FolowStepsdr className={styles.steps} onSub={()=>onSub}/>
 </Modald>
 
 <Modald visible={isOpenss} >
-<FolowStepss className={styles.steps} onSub={()=>onSub}/>
+    <FolowStepss className={styles.steps} onSub={()=>onSub}/>
 </Modald>
     </>
   );
