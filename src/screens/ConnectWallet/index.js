@@ -294,25 +294,32 @@ const algowallet=async()=>{
           </Link>
         </div> */}
 
-<button className={cn("button", styles.button)} onClick={()=>algowallet()} id="listacc">
-                Algo-Wallet TestNet 
-</button>                
+
 <br/><br/>
         {isListtrys === null || isListtrys === "" || isListtrys === undefined ? <>
                 
-                <button className={cn("button", styles.button)} onClick={()=>algosignertry()} id="listacc">
+        
+              <button className={cn("button", styles.button)} onClick={()=>algowallet()} id="listacc">
+                Algo-Wallet TestNet 
+              </button>             
+              <br/><br/>
+              <button className={cn("button", styles.button)} onClick={()=>algosignertry()} id="listacc">
                 Algosigner-TestNet Wallet
-              </button>                
+              </button>                                 
               </> :<>
+              <button className={cn("button", styles.button)} onClick={()=>algowallet()} id="listacc">
+                Algo-Wallet TestNet 
+              </button>               
+              <br/><br/>                                
               <button className={cn("button", styles.button)} onClick={()=>algosignertry()} id="listacc">
               Algosigner-TestNet Wallet
-              </button>                                
+              </button>                             
               </>}
 <br></br>
 <br></br>
               {isListtrysmain === null || isListtrysmain === "" || isListtrysmain === undefined ? <>
                 
-                <button className={cn("button", styles.button)} onClick={()=>algosignertrymain()} id="listacc">
+              <button className={cn("button", styles.button)} onClick={()=>algosignertrymain()} id="listacc">
                 Algosigner-MainNet Wallet
               </button>                
               </> :<>

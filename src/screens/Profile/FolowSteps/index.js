@@ -23,7 +23,7 @@ const FolowSteps = ({ className,onSub}) => {
               
             </div>
           </div>
-          <button type="submit" className={cn("button done", styles.button)} onClick={onSub()}>Done</button>
+          <button type="submit" className={cn("button", styles.button)} onClick={onSub()}>Done</button>
           {/* <button type="submit" onClick={()=>dones()}>Start nowss</button> */}
           {/* onClick={onClo()} */}
         </div>

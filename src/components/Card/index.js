@@ -189,6 +189,8 @@ const printAssetHolding = async function (algodclient, account, assetid) {
           //let idget=assetidgetc;
           let assetidgetc=parseInt(item.title)    
         try {            
+          let amountmul=(parseInt(urlprize)*1000000);
+          console.log("amountmul",amountmul)
         const params = await algodclient.getTransactionParams().do();            
         const myAlgoConnect = new MyAlgoConnect();
         let results = await algodclient.compile(data).do();
@@ -202,7 +204,7 @@ const printAssetHolding = async function (algodclient, account, assetid) {
             console.log("LSIG",lsig.address())
         let appArgs = [];
         appArgs.push(new Uint8Array(Buffer.from("createlisting")));
-        appArgs.push(algosdk.encodeUint64(parseInt((parseInt(urlprize)))*1000000));
+        appArgs.push(algosdk.encodeUint64(parseInt(amountmul)));
         let transaction1 = algosdk.makeApplicationNoOpTxnFromObject({
           from:localStorage.getItem('wallet'), 
           suggestedParams:params, 
@@ -268,7 +270,7 @@ const printAssetHolding = async function (algodclient, account, assetid) {
         //db here
 
         fireDb.database().ref(`imagerefAlgo/${getalgo}`).child(item.highestBid).update({
-          id:item.title,imageUrl:item.image,priceSet:urlprize,cAddress:lsig.address(),keyId:item.highestBid,
+          id:item.title,imageUrl:item.image,priceSet:parseInt(amountmul),cAddress:lsig.address(),keyId:item.highestBid,
           userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
           ownerAddress:item.bid,soldd:item.soldd,extra1:item.extra,
           previousoaddress:item.previousaddress,datesets:item.date,
@@ -436,7 +438,7 @@ const printAssetHolding = async function (algodclient, account, assetid) {
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.title}</div>
-            <div className={styles.price}>{item.price}</div>
+            <div className={styles.price}>{parseInt(item.price/1000000)}</div>
             
           </div>
           <div className={styles.line}>

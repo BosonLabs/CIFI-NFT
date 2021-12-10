@@ -379,7 +379,7 @@ setIsOpenss(false)
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.title}</div>
-            <div className={styles.price}>{item.price}</div>                        
+            <div className={styles.price}>{parseInt(item.price/1000000)}</div>             
           </div>
           <div className={styles.line}>
             <div className={styles.users}>
