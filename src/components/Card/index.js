@@ -99,7 +99,7 @@ const printAssetHolding = async function (algodclient, account, assetid) {
     console.log("addlikedb function call");    
     fireDb.database().ref(`imagereflikes/${getalgo}`).child(item.highestBid).set({
       id:item.title,imageUrl:item.image,priceSet:item.price,cAddress:item.categoryText,keyId:item.highestBid,
-      userName:item.counter,userSymbol:"Algos",ipfsUrl:item.ipfsurl,
+      userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
       ownerAddress:item.bid,soldd:item.soldd,extra1:item.extra,
       previousoaddress:item.previousaddress,datesets:item.date,
       description:item.description,whois:'likes',history:item.url,Mnemonic:item.Mnemonic
@@ -185,7 +185,7 @@ const printAssetHolding = async function (algodclient, account, assetid) {
           const algosdk = require('algosdk');  
           const algodclient = new algosdk.Algodv2('', 'https://api.testnet.algoexplorer.io', '');
           // const myAlgoConnect = new MyAlgoConnect();
-          let appId="49393545";
+          let appId="50714558";
           //let idget=assetidgetc;
           let assetidgetc=parseInt(item.title)    
         try {            
@@ -202,7 +202,7 @@ const printAssetHolding = async function (algodclient, account, assetid) {
             console.log("LSIG",lsig.address())
         let appArgs = [];
         appArgs.push(new Uint8Array(Buffer.from("createlisting")));
-        appArgs.push(algosdk.encodeUint64(parseInt(urlprize)));
+        appArgs.push(algosdk.encodeUint64(parseInt((parseInt(urlprize)))*1000000));
         let transaction1 = algosdk.makeApplicationNoOpTxnFromObject({
           from:localStorage.getItem('wallet'), 
           suggestedParams:params, 
@@ -235,22 +235,33 @@ const printAssetHolding = async function (algodclient, account, assetid) {
         amount: 1,
         suggestedParams: params
         });
+
+        const txn5 = algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
+          reKeyTo: undefined,
+          from : localStorage.getItem('wallet'),
+          manager: lsig.address(),
+          assetIndex:parseInt(assetidgetc),
+          suggestedParams:params,
+          strictEmptyAddressChecking:false
+          
+        })
         
         
-        const groupID = algosdk.computeGroupID([ transaction1, transaction2, transaction3, transaction4 ]);
-        const txs = [ transaction1, transaction2, transaction3, transaction4 ];
+        const groupID = algosdk.computeGroupID([ transaction1, transaction2, transaction3, transaction4,txn5]);
+        const txs = [ transaction1, transaction2, transaction3, transaction4,txn5 ];
         txs[0].group = groupID;
         txs[1].group = groupID;
         txs[2].group = groupID;
         txs[3].group = groupID;
+        txs[4].group = groupID;
         
                   
         const signedTx1 = await myAlgoConnect.signTransaction(txs[0].toByte());
         const signedTx2 = await myAlgoConnect.signTransaction(txs[1].toByte());
         const signedTx3 = algosdk.signLogicSigTransaction(txs[2], lsig);
         const signedTx4 = await myAlgoConnect.signTransaction(txs[3].toByte());
-        
-        const response = await algodclient.sendRawTransaction([ signedTx1.blob, signedTx2.blob, signedTx3.blob, signedTx4.blob]).do();
+        const signedTx5 = await myAlgoConnect.signTransaction(txs[4].toByte());
+        const response = await algodclient.sendRawTransaction([ signedTx1.blob, signedTx2.blob, signedTx3.blob, signedTx4.blob,signedTx5.blob]).do();
         console.log("TxID", JSON.stringify(response, null, 1));
         await waitForConfirmation(algodclient, response.txId);
 
@@ -258,7 +269,7 @@ const printAssetHolding = async function (algodclient, account, assetid) {
 
         fireDb.database().ref(`imagerefAlgo/${getalgo}`).child(item.highestBid).update({
           id:item.title,imageUrl:item.image,priceSet:urlprize,cAddress:lsig.address(),keyId:item.highestBid,
-          userName:item.counter,userSymbol:"Algos",ipfsUrl:item.ipfsurl,
+          userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
           ownerAddress:item.bid,soldd:item.soldd,extra1:item.extra,
           previousoaddress:item.previousaddress,datesets:item.date,
           description:item.description,whois:'readytosale',history:item.url,
@@ -311,7 +322,7 @@ const printAssetHolding = async function (algodclient, account, assetid) {
     else{
       fireDb.database().ref(`imagerefexploreoneAlgos/${getalgo}`).child(item.highestBid).set({
         id:item.title,imageUrl:item.image,priceSet:item.price,cAddress:item.categoryText,keyId:item.highestBid,
-        userName:item.counter,userSymbol:"Algos",ipfsUrl:item.ipfsurl,
+        userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
         ownerAddress:item.bid,soldd:item.soldd,extra1:item.extra,
         previousoaddress:item.previousaddress,datesets:item.date,
         description:item.description,whois:'readytosale',history:item.url,Mnemonic:item.Mnemonic,

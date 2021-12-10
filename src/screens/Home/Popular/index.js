@@ -273,6 +273,7 @@ const directionOptions = ["Sellers", "Buyers"];
             Object.keys(a).map(async(b)=>{      
               //console.log(a[b].id);
                       req.push({
+                      userSymbol:a[b].userSymbol,
                       price: a[b].id,
                       sign: a[b].priceSet,
                       // sign: "/images/content/cup.svg",
@@ -316,6 +317,7 @@ const directionOptions = ["Sellers", "Buyers"];
             Object.keys(a).map(async(b)=>{      
               //console.log(a[b].id);
                       reqsale.push({
+                      userSymbol:a[b].userSymbol,
                       price: a[b].id,
                       sign: a[b].priceSet,
                       // sign: "/images/content/cup.svg",

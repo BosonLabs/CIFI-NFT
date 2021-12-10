@@ -100,7 +100,7 @@ let algodclient = new algosdk.Algodv2(token, server, port);
     //const accounts = await  web3.eth.getAccounts();
     fireDb.database().ref(`imagereflikes/${getalgo}`).child(item.highestBid).set({
       id:item.title,imageUrl:item.image,priceSet:item.price,cAddress:item.categoryText,keyId:item.highestBid,
-      userName:item.counter,userSymbol:"Algos",ipfsUrl:item.ipfsurl,
+      userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
       ownerAddress:item.bid,soldd:item.soldd,extra1:item.extra,
       previousoaddress:item.previousaddress,datesets:item.date,
       description:item.description,whois:'likes',history:item.url,paramsdb:item.image2x,privatekey:item.category,Mnemonic:item.Mnemonic,
@@ -168,13 +168,17 @@ else{
   const algosdk = require('algosdk');  
   const algodclient = new algosdk.Algodv2('', 'https://api.testnet.algoexplorer.io', '');          
   //const myAlgoConnect = new MyAlgoConnect();
-  let appId="49393545";
+  let appId="50714558";
   let params = await algodclient.getTransactionParams().do();
 //  comment out the next two lines to use suggested fee
   params.fee = 1000;
   params.flatFee = true;  
   console.log("Global state", datedt);  
 try {    
+  let convert95=(((parseInt(item.price))/100)*95)
+  console.log("convert95",convert95)  
+  let convert5=(((parseInt(item.price))/100)*5);
+  console.log("convert5",convert5)
 const params = await algodclient.getTransactionParams().do();    
 const myAlgoConnect = new MyAlgoConnect();
 let results = await algodclient.compile(data).do();
@@ -201,70 +205,88 @@ const transactionass = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject
   const responseass = await algodclient.sendRawTransaction(signedTxnass.blob).do();
   console.log("optresponse",responseass)
   
-let transaction1 = algosdk.makeApplicationNoOpTxnFromObject({
-  from:localStorage.getItem('wallet'), 
-  suggestedParams:params, 
-  appIndex:parseInt(appId), 
-  appArgs:appArgs})
-  
-let transaction2 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-from: localStorage.getItem('wallet'),
-to: lsig.address(),
-amount: Number(parseInt(2000)),
-note: undefined,
-suggestedParams: params
-});
-//let transaction3=algosdk.makeAss(sender, params, index);
-
-let transaction21 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-  from: localStorage.getItem('wallet'),
-  to: lsig.address(),
-  amount: Number(parseInt(item.price)),
-  note: undefined,
-  suggestedParams: params
-  });
-
-const transaction3 = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
-from:lsig.address(),
-to: localStorage.getItem('wallet'),
-assetIndex: parseInt(item.title),
-note: undefined,
-amount: 1,
-suggestedParams: params
-});
-
-let transaction31 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-  from:lsig.address(),
-  to: localStorage.getItem('wallet'),
-  amount: Number(parseInt(item.price)),
-  note: undefined,
-  suggestedParams: params
-  });
-
-const groupID = algosdk.computeGroupID([ transaction1, transaction2, transaction21,transaction3, transaction31 ]);
-const txs = [ transaction1, transaction2, transaction21,transaction3, transaction31 ];
-txs[0].group = groupID;
-txs[1].group = groupID;
-txs[2].group = groupID;
-txs[3].group = groupID;
-txs[4].group = groupID;
-
     
-const signedTx1 = await myAlgoConnect.signTransaction(txs[0].toByte());
-const signedTx2 = await myAlgoConnect.signTransaction(txs[1].toByte());
-const signedTx21 = await myAlgoConnect.signTransaction(txs[2].toByte());
-const signedTx3 = algosdk.signLogicSigTransaction(txs[3], lsig);
-const signedTx31 = algosdk.signLogicSigTransaction(txs[4], lsig);
+  const txn1 = algosdk.makeApplicationNoOpTxnFromObject({
+    from:localStorage.getItem('wallet'), 
+    suggestedParams: params, 
+    appIndex: parseInt(appId), 
+    appArgs: appArgs
+});
 
-const response = await algodclient.sendRawTransaction([ signedTx1.blob, signedTx2.blob, signedTx21.blob,signedTx3.blob, signedTx31.blob]).do();
+const txn2 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+    suggestedParams:params,
+    from:localStorage.getItem('wallet'),
+    to: lsig.address(), 
+    amount: 2000
+});
+const txn3 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+  suggestedParams:params,
+  from:localStorage.getItem('wallet'),
+  to: lsig.address(), 
+  amount: parseInt(item.price)
+});
+
+  const txn4 = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+    suggestedParams:params,
+    from: lsig.address(),
+    to:localStorage.getItem('wallet'), 
+    amount: 1,
+    assetIndex: parseInt(item.title)
+  });
+
+  
+  const txn5 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+    suggestedParams:params,
+    from: lsig.address(),
+    to:item.bid, 
+    amount: parseInt(convert95)
+});
+
+const txn6 = algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
+  reKeyTo: undefined,
+  from : lsig.address(),
+  manager:localStorage.getItem('wallet'),
+  assetIndex: parseInt(item.title),
+  suggestedParams:params,
+  strictEmptyAddressChecking:false
+  
+})
+
+const txn7 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
+  suggestedParams:params,
+  from: lsig.address(),
+  to:"PSYRA3264OJABUAD4GWNUMGXGYDZHJRPGL5GX26SNF3OIDQQKSPWZGDWN4", 
+  amount: parseInt(convert5)
+});
+
+const txnsToGroup = [ txn1, txn2 ,txn3, txn4, txn5, txn6, txn7];
+const groupID = algosdk.computeGroupID(txnsToGroup)
+txnsToGroup[0].group = groupID;
+txnsToGroup[1].group = groupID;
+txnsToGroup[2].group = groupID;
+txnsToGroup[3].group = groupID;
+txnsToGroup[4].group = groupID;
+txnsToGroup[5].group = groupID;
+txnsToGroup[6].group = groupID;
+
+const signedTx1 = await myAlgoConnect.signTransaction(txnsToGroup[0].toByte());
+const signedTx2 = await myAlgoConnect.signTransaction(txnsToGroup[1].toByte());
+const signedTx3 = await myAlgoConnect.signTransaction(txnsToGroup[2].toByte());
+const signedTx4 = algosdk.signLogicSigTransaction(txnsToGroup[3], lsig);
+const signedTx5 = algosdk.signLogicSigTransaction(txnsToGroup[4], lsig);
+const signedTx6 = algosdk.signLogicSigTransaction(txnsToGroup[5], lsig);
+const signedTx7 = algosdk.signLogicSigTransaction(txnsToGroup[6], lsig);
+
+const response = await algodclient.sendRawTransaction([signedTx1.blob,signedTx2.blob,signedTx3.blob,signedTx4.blob,signedTx5.blob,signedTx6.blob,signedTx7.blob]).do();
 console.log("TxID", JSON.stringify(response, null, 1));
 await waitForConfirmation(algodclient, response.txId);
+
 //db change here
 
 fireDb.database().ref(`imagerefexploreoneAlgos/${item.bid}`).child(item.highestBid).remove().then(()=>{
   fireDb.database().ref(`imagerefbuy/${localStorage.getItem("wallet")}`).child(item.highestBid).set({
   id:item.title,imageUrl:item.image,priceSet:item.price,cAddress:item.categoryText,keyId:item.highestBid,
-  userName:item.counter,userSymbol:"Algos",ipfsUrl:item.ipfsurl,
+  userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
   ownerAddress:localStorage.getItem("wallet"),soldd:item.soldd,extra1:item.extra,
   previousoaddress:item.bid,datesets:item.date,
   description:item.description,whois:'buyers',history:item.url,

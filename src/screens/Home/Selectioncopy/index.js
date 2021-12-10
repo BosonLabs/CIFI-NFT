@@ -87,6 +87,7 @@ useEffect(() => {
         data.forEach((d) => {            
           let value=d.val();
           req.push({
+            userSymbol:value.userSymbol,
             title: value.id,
             price: value.priceSet,
             highestBid: value.keyId,
