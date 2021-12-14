@@ -18,7 +18,7 @@ const FolowStepsd = ({ className,onClo}) => {
               <Icon name="upload-file" size="24" />
             </div>
             <div className={styles.details}>
-              <div className={styles.info}>Algosigner Connect</div>
+              <div className={styles.info}>My Algo Connect</div>
               
             </div>
           </div>

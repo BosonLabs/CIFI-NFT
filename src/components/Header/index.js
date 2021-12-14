@@ -8,6 +8,7 @@ import Image from "../Image";
 import Notification from "./Notification";
 import User from "./User";
 import Imagecopy from "../Imagecopy";
+import Theme from "../Theme";
 
 
 const nav = [
@@ -166,10 +167,10 @@ const Headers = () => {
         </div>
 
         {/* Notification button below */}          
-        <Notification className={styles.notification} />
+        {/* <Notification className={styles.notification} /> */}
         <Link
           className={cn("button-small", styles.button)}
-          to="/upload-variants"
+          to="/upload-details"
         >
           Upload
         </Link>      
@@ -196,8 +197,16 @@ Connected
         <button
           className={cn(styles.burger, { [styles.active]: visibleNav })}
           onClick={() => setVisibleNav(!visibleNav)}
-        ></button>
+        ></button>      
+        &nbsp;&nbsp;&nbsp;  
+        <div className={styles.icon} >                    
+                      <Icon name="bulb" size="20"/>    
+                    </div>                                
+                    &nbsp;&nbsp;        
+                    <Theme className={styles.theme} boo="true"/>
+                    {/* <div className={styles.text} >{"Light theme"}</  div> */}
       </div>
+      
     </header>
   );
 };

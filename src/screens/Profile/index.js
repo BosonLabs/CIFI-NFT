@@ -808,15 +808,12 @@ const dbcallalgobuy=async()=>{
     let getalgo=localStorage.getItem("wallet");
     
     //let kreq =[];
-    firebase.database().ref("imagerefbuy").child(getalgo).on("value", (data) => {
-
-      
+    firebase.database().ref("imagerefbuy").child(getalgo).on("value", (data) => {      
       if (data) {
         data.forEach((d) => {
           //console.log("keycheck",d.key)
           let value=d.val();
-          req.push(
-            
+          req.push(            
             {
               userSymbol:value.userSymbol,
               title: value.id,
@@ -1139,7 +1136,7 @@ console.log("programop",program)
                   
                 )}
                 {activeIndex === 1 && (
-                  <Items class={styles.items} items={getImgreffalgobuy} />
+                  <Itemss class={styles.items} items={getImgreffalgobuy} />
                   // bids.slice(0, 6)
                 )}
 

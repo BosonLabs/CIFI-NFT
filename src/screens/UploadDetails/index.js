@@ -1019,13 +1019,13 @@ const storedb=async(assetID,responsetxId,addresseswall)=>{
           <div className={styles.wrapper}>
             <div className={styles.head}>
               <div className={cn("h2", styles.title)}>
-                Create single collectible
+                Create collectible
               </div>
-              <button
+              {/* <button
                 className={cn("button-stroke button-small", styles.button)}
               >
                 Switch to Multiple
-              </button>
+              </button> */}
             </div>
             <br></br>
             <form className={styles.form} action="">            

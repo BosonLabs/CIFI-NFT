@@ -100,12 +100,11 @@ let algodclient = new algosdk.Algodv2(token, server, port);
     //const accounts = await  web3.eth.getAccounts();
     fireDb.database().ref(`imagereflikes/${getalgo}`).child(item.highestBid).set({
       id:item.title,imageUrl:item.image,priceSet:item.price,cAddress:item.categoryText,keyId:item.highestBid,
-      userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
-      ownerAddress:item.bid,soldd:item.soldd,extra1:item.extra,
-      previousoaddress:item.previousaddress,datesets:item.date,
-      description:item.description,whois:'likes',history:item.url,paramsdb:item.image2x,privatekey:item.category,Mnemonic:item.Mnemonic,
-      applicationid:item.applicationid,usdcids:item.usdcids,escrowaddress:item.escrowaddress
-
+  userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
+  ownerAddress:item.bid,soldd:item.soldd,extra1:item.extra,
+  previousoaddress:item.bid,datesets:item.date,
+  description:item.description,whois:'likes',history:item.url,
+  applicationid:item.applicationid,usdcids:item.usdcids,escrowaddress:item.escrowaddress    
         }).then(()=>{
         setVisible(!visible)
         window.location.reload(false)   
@@ -282,19 +281,20 @@ console.log("TxID", JSON.stringify(response, null, 1));
 await waitForConfirmation(algodclient, response.txId);
 
 //db change here
-
+      
 fireDb.database().ref(`imagerefexploreoneAlgos/${item.bid}`).child(item.highestBid).remove().then(()=>{
   fireDb.database().ref(`imagerefbuy/${localStorage.getItem("wallet")}`).child(item.highestBid).set({
   id:item.title,imageUrl:item.image,priceSet:item.price,cAddress:item.categoryText,keyId:item.highestBid,
   userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
   ownerAddress:localStorage.getItem("wallet"),soldd:item.soldd,extra1:item.extra,
   previousoaddress:item.bid,datesets:item.date,
-  description:item.description,whois:'buyers',history:item.url,
-  applicationid:item.applicationid,usdcids:item.usdcids,escrowaddress:item.escrowaddress  
-        }).then(()=>{
+  description:item.description,whois:'buyers',history:item.url,Mnemonic:item.Mnemonic,
+  applicationid:item.applicationid,usdcids:item.usdcids,escrowaddress:item.escrowaddress,
+  //league:item.league,team:item.team,type:item.type,
+        }).then(()=>{          
           setIsOpenss(false)
-          setIsOpens(true)          
-        }) 
+          setIsOpens(true)                  
+      }) 
 })
 .catch((e) => {
 console.error(e);
@@ -375,7 +375,7 @@ setIsOpenss(false)
     </button>
 )} */}
 </>)}
-      <Link className={styles.link} to={item.url}>
+      {/* <Link className={styles.link} to={item.url}> */}
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.title}</div>
@@ -396,7 +396,7 @@ setIsOpenss(false)
           <div className={styles.status}>
           </div>
         </div>
-      </Link>
+      {/* </Link> */}
     </div>
   <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
     <FolowStepsd className={styles.steps} viewhistory={historydb}/>
