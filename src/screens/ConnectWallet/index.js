@@ -5,8 +5,6 @@ import cn from "classnames";
 import styles from "./ConnectWallet.module.sass";
 import Icon from "../../components/Icon";
 import Checkbox from "../../components/Checkbox";
-//import web3 from './web3';
-//import Popup from './Popup';
 import 'reactjs-popup/dist/index.css';
 //import Popup from 'reactjs-popup';
 import FolowStepsd from "./FolowStepsd";
@@ -42,181 +40,21 @@ const Connect = () => {
   const [isListtrysmain, setisListtrysmain] = useState();
   const [isOpenmain, setIsOpenmain] = useState(false);
   console.log("isClickingstate",isListtrys)
-  console.log("isClickingstatemain",isListtrysmain)
-  //console.log("isClicking",isClick)
-  //console.log("islistfirst",isList)
-  
-  // const togglePopup = () => {
-  //   setIsOpen(false);
-  //   history.push("/")
-    
-  // }
+  console.log("isClickingstatemain",isListtrysmain)  
 
   console.log(isOpen)
 
   const menu = [
-//     {
-//       title: "Connect Algo Wallet",
-//       color: "#9757D7",
-//       onclick:async()=>{        
-//         console.log("algo wallet")
-//         //window.ethereum.enable();
-        
-// //const  MyAlgoWallet  = require('@randlabs/myalgo-connect');
 
-// const myAlgoWallet = new MyAlgo();
-
-// /*Warning: Browser will block pop-up if user doesn't trigger myAlgoWallet.connect() with a button interation */
-
-//   try {
-//     const accounts = await myAlgoWallet.connect();
-
-//     const addresses = accounts.map(account => account.address);
-//     console.log("address",addresses)
-//     //setIsOpen(true)        
-//     //wallet local start
-//     if(localStorage.getItem("wallet") === null || localStorage.getItem("wallet") === "0x" || localStorage.getItem("wallet") === 'undefined' || localStorage.getItem("wallet") === '' || localStorage.getItem("wallet") === undefined)
-
-// {
-
-//   localStorage.setItem("wallet",addresses[0])
-//     let refprofile=fireDb.database().ref(`profiledata/${addresses[0]}`);
-//     let dateset=new Date().toDateString();
-//     console.log("dateget",dateset)
-//     const db = refprofile.push().key;
-//     console.log("dbcheck",db)
-//     refprofile.set({profileurl:"aaa",displayname:"aaa",http:"",Bio:"",social:"",Twitter:"",address:localStorage.getItem("wallet"),dbkey:"",
-//     username:"bbb"})
-// }
-// else {
-
-//   localStorage.setItem("wallet",addresses[0])
-//   let refprofile=fireDb.database().ref(`profiledata/${addresses[0]}`);
-//     let dateset=new Date().toDateString();
-//     console.log("dateget",dateset)
-//     const db = refprofile.push().key;
-//     console.log("dbcheck",db)
-//           refprofile.set({profileurl:"",displayname:"aaaa",http:"",Bio:"",social:"",Twitter:"",address:addresses[0],dbkey:"",username:"bbbb"}).then(()=>{                      
-//           })                
-
-//   setIsOpen(true)
-// }
-
-//   //setIsOpen(true)
-
-//     //wallet local end
-//   } catch (err) {
-//     console.error(err);
-//   }          
-//         //onClick={() => setVisibleModal(true)}
-        
-//         //if(accounts[0]!== ''){
-//           //var btns = document.getElementById("me");
-//           //btns.innerHTML = "CONNECTED";          
-//         //}
-//         //console.log(accounts[0]);  
-//         //alert("connected....")
-//       }
-//     },
-//     {
-//       title: "Algosigner Wallet",
-//       color: "#3772FF",
-//       onclick:()=>{
-//         console.log("Coinbase")
-        
-//         AlgoSigner.connect()
-//     .then((d) => {
-    
-//     AlgoSigner.accounts({
-//       ledger: 'TestNet'
-//     })
-//     .then((d) => {
-//       let accounts = d;
-//       setisListtry(d)
-//       setIsOpenlisttry(true)
-//       console.log("acc Algo",isListtrys)
-//       if(isListtrys === null || isListtrys === "" || isListtrys === undefined)
-//       {
-//         localStorage.setItem("wallet","")
-//       }
-//       else{
-//         localStorage.setItem("wallet",isListtrys)
-//       }    
-//       if(localStorage.getItem("wallet") === null || localStorage.getItem("wallet") === "0x" || localStorage.getItem("wallet") === 'undefined' || localStorage.getItem("wallet") === '' || localStorage.getItem("wallet") === undefined)
-// {
-
-//     let refprofile=fireDb.database().ref(`profiledata/${isListtrys}`);
-//     let dateset=new Date().toDateString();
-//     console.log("dateget",dateset)
-//     const db = refprofile.push().key;
-//     console.log("dbcheck",db)
-//           refprofile.set({profileurl:"",displayname:"aaaa",http:"",Bio:"",social:"",Twitter:"",address:"",dbkey:"",username:"bbbb"}).then(()=>{                      
-//             setIsOpen(true)
-//           })                
-// }
-// else{
-
-//   setisListtry(d)
-//   setIsOpenlisttry(true)
-//   if(isListtrys === null || isListtrys === "" || isListtrys === undefined)
-//       {
-//         localStorage.setItem("wallet","")
-//       }
-//       else{
-//         localStorage.setItem("wallet",isListtrys)
-//       }
-
-//   //localStorage.setItem("wallet",isListtrys)
-//   let refprofile=fireDb.database().ref(`profiledata/${isListtrys}`);
-//     let dateset=new Date().toDateString();
-//     console.log("dateget",dateset)
-//     const db = refprofile.push().key;
-//     console.log("dbcheck",db)
-//           refprofile.set({profileurl:"",displayname:"aaaa",http:"",Bio:"",social:"",Twitter:"",address:"",dbkey:"",username:"bbbb"}).then(()=>{                      
-
-//             setIsOpen(true)
-//           })                
-
-//   //setIsOpen(true)
-// }
-//     })
-//     .catch((e) => {
-//       console.error(e);
-//     });
-  
-//   })
-//   .catch((e) => {
-//     console.error(e);
-//   });
-  
-  
-//       }
-  
-//     }
-    //,
-    // {
-    //   title: "MyEtherWallet",
-    //   color: "#45B26B",
-    //   onclick:()=>{console.log("Etherwallet")}
-    // },
-    // {
-    //   title: "Wallet Connect",
-    //   color: "#EF466F",
-    //   onclick:()=>{console.log("Wallet Connect")}
-    // },
   ];
 
   const onClo=()=>{
-
     console.log("hello onclo")  
     //setIsOpen(false);
     history.push("/")
     window.location.reload();
     window.location.reload();
-
-  }
-
-  
+  }  
 const algosignertry=()=>{
   AlgoSigner.connect()
 .then((d) => {
@@ -224,8 +62,7 @@ AlgoSigner.accounts({
   ledger: 'TestNet'
 })
 .then((d) => {
-  let accounts = d;
-  //document.getElementById("listacc").innerHTML=accounts[0].address;
+  let accounts = d; 
   console.log("listaccount",d)
   setisListtry(d)
   setIsOpenlisttry(true)  
@@ -278,27 +115,12 @@ const algowallet=async()=>{
   setisListtry(accountswall)
   setIsOpenlisttry(true)  
 }
-
-
-
-
-  return (
-    
+  return (    
   <>  
     <div className={cn("section-pt80", styles.section)}>
-      <div className={cn("container", styles.container)}>
-        {/* <div className={styles.head}>
-          <Link className={styles.back} to="/">
-            <Icon name="arrow-prev" size="24" />
-            <div className={cn("h2", styles.stage)}>Connect your wallet</div>            
-          </Link>
-        </div> */}
-
-
+      <div className={cn("container", styles.container)}>        
 <br/><br/>
-        {isListtrys === null || isListtrys === "" || isListtrys === undefined ? <>
-                
-        
+        {isListtrys === null || isListtrys === "" || isListtrys === undefined ? <>                        
               <button className={cn("button", styles.button)} onClick={()=>algowallet()} id="listacc">
                 Algo-Wallet TestNet 
               </button>             
@@ -317,8 +139,7 @@ const algowallet=async()=>{
               </>}
 <br></br>
 <br></br>
-              {isListtrysmain === null || isListtrysmain === "" || isListtrysmain === undefined ? <>
-                
+              {isListtrysmain === null || isListtrysmain === "" || isListtrysmain === undefined ? <>                
               <button className={cn("button", styles.button)} onClick={()=>algosignertrymain()} id="listacc">
                 Algosigner-MainNet Wallet
               </button>                
@@ -327,14 +148,10 @@ const algowallet=async()=>{
               Algosigner-MainNet Wallet
               </button>                                
               </>}
-
-
         <div className={styles.body}>
-          <div className={styles.menu}>
-                
+          <div className={styles.menu}>                
             {menu.map((x, index) => (
-              //connect wallet write below
-                            
+              //connect wallet write below                            
               <div
                 className={cn({ [styles.active]: index === 1 }, styles.link)}
                 key={index}                                
@@ -350,15 +167,12 @@ const algowallet=async()=>{
                 <span>{x.title}</span>
                 <div className={styles.arrow}>
                   <Icon name="arrow-next" size="14" />
-                </div>
-                
+                </div>                
               </div>
             ))}
-          </div>
-          
+          </div>          
           <div className={styles.wrapper}>
-            <div className={styles.bg}>
-              
+            <div className={styles.bg}>              
               <img
                 srcSet="/images/content/connect-bg@2x.jpg 2x"
                 src="/images/content/connect-bg.jpg"
@@ -416,20 +230,14 @@ const algowallet=async()=>{
             </div>
           </div>
         </div>
-      </div>
-
-      
+      </div>      
     </div>
-
     <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
         <FolowStepsd className={styles.steps} onClo={()=>onClo}/>
-      </Modald>
-
+    </Modald>
       <Modald visible={isOpenmain} onClose={() => setIsOpen(false)}>
         <FolowStepsd className={styles.steps} onClo={()=>onClo}/>
-      </Modald>
-
-      
+      </Modald>      
     <ModalList visible={isOpenlisttry} >
         <FolowStepsList className={styles.steps} data={isListtry} datas={(a)=>
         {
@@ -440,7 +248,6 @@ const algowallet=async()=>{
         }
         }/>          
     </ModalList>  
-
     <ModalListmain visible={isOpenlisttrymain} >
         <FolowStepsListmain className={styles.steps} data={isListtrymain} datas={(a)=>
         {
@@ -451,9 +258,7 @@ const algowallet=async()=>{
         }
         }/>          
     </ModalListmain>  
-
   </>
   );
 };
-
 export default Connect;

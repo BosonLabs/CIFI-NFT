@@ -8,6 +8,7 @@ import Discover from "./Discover";
 import Description from "./Description";
 import Selectioncopy from "./Selectioncopy";
 import TopCollections from "./TopCollections";
+import Liveauctions from "./Liveauctions";
 
 const Home = () => {
   return (
@@ -19,6 +20,7 @@ const Home = () => {
       <Popular />
       {/* <HotBid classSection="section" /> */}
       <Collections />
+      <Liveauctions />
       {/* <PopularCopy />
       <PopularCopys /> */}
       <Discover />
