@@ -1,4 +1,5 @@
 /* global AlgoSigner */
+import {ExcelRenderer, OutTable} from 'react-excel-renderer';
 import React, { useState,useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import cn from "classnames";
@@ -23,6 +24,8 @@ const myAlgoWallet = new MyAlgoConnect();
 
 const Upload = () => {
   
+  const [files,setfiles]= useState([]);
+  const [Ano,setAno]= useState([]);
   const [selected, setSelected] = React.useState("Minor League");
   const [selectedImg, setSelectedImg] = React.useState("");
   console.log("Selec",selectedImg)
@@ -322,8 +325,9 @@ algodClient.healthCheck().do()
                       const db = ref2.push().key;                         
                       const db2 = ref22.push().key;                         
                       console.log("dbcheck",db)
-                      ref2.child(db).set({id:idget,imageUrl:Img,priceSet:"",cAddress:txasset,keyId:db,userName:ta,userSymbol:tb,
-                      ipfsUrl:Img,ownerAddress:localStorage.getItem("wallet"),soldd:"",extra1:"",previousoaddress:"",datesets:dateset,
+                      ref2.child(db).set({id:idget,imageUrl:Img,priceSet:"",cAddress:txasset,keyId:db,userName:ta,
+                      userSymbol:tb,ipfsUrl:Img,ownerAddress:localStorage.getItem("wallet"),soldd:"",extra1:"",
+                      previousoaddress:"",datesets:dateset,
                       whois:'',
                       league:selected,team:selected2,type:selected3,
                       teamlogo:selectedImg,dimen:selected4,description:tdescription,history:"",Mnemonic:""})
@@ -1011,7 +1015,64 @@ const storedb=async(assetID,responsetxId,addresseswall)=>{
 }
 
 
+const fileHandler = (event) => {
+  let fileObj = event.target.files[0];
+  
+  //just pass the fileObj as parameter
+  ExcelRenderer(fileObj, (err, resp) => {
+    if(err){
+      console.log(err);            
+    }
+    else{
+      console.log("Cols",resp)
+      console.log("Cols",resp.cols)
+      console.log("Rows",resp.rows)
+      // this.setState({
+      //   cols: resp.cols,
+      //   rows: resp.rows
+      // });
+    }
+  });               
+  
+  }
 
+const fileSelectedHandler = (e) => {  
+  setfiles([e.target.files])  
+}
+
+const upload=()=>{  
+  console.log("hello",files[0])  
+//   Ano.forEach((d) => {            
+// console.log("hello2",d)  
+//   })
+  files.map((get)=>{
+    for(let i=0;i<get.length;i++){
+
+    const file = get[i]
+    console.log("oneone",file)
+    let reader = new window.FileReader()
+    Compress.imageFileResizer(file, 300, 300, 'JPEG', 10, 0,
+    uri => {
+      console.log("iuri",uri)
+      setImg(uri)
+    },
+    'base64'
+    );
+
+    reader.readAsArrayBuffer(file)
+    reader.onloadend = () => convertToBuffer(reader);    
+    console.log("Reader",reader)    
+
+    }
+    //event.stopPropagation()
+    //event.preventDefault()
+    //console.log("getin",get[1])
+    
+    
+  })
+}
+
+console.log("filesdisplay",files)
   return (
     <>
       <div className={cn("section", styles.section)}>
@@ -1020,6 +1081,8 @@ const storedb=async(assetID,responsetxId,addresseswall)=>{
             <div className={styles.head}>
               <div className={cn("h2", styles.title)}>
                 Create collectible
+                <input type="file" multiple onChange={fileHandler} />
+                <button type="button" onClick={()=>upload()}>Run</button>
               </div>
               {/* <button
                 className={cn("button-stroke button-small", styles.button)}
