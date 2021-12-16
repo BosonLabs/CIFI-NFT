@@ -23,7 +23,7 @@ bnz buynow
 
 buynow:
 global GroupSize
-int 5
+int 7
 ==
 bz failed
 gtxn 0 TypeEnum
@@ -39,27 +39,45 @@ byte "E"
 app_global_get
 ==
 &&
-//gtxn 3 AssetSender
-//gtxn 2 Receiver
-//==
-//&&
+
 gtxn 2 Amount
-int 0
->
-&&
-gtxn 2 Amount
+int 100
+/
+int 95
+*
 gtxn 4 Amount
 ==
-&&
+bz failed
+gtxn 2 Amount
+int 5
+*
+int 100
+/
+gtxn 6 Amount
+==
+bz failed
 gtxn 3 TypeEnum
 int axfer
+==
+&&
+gtxn 3 AssetReceiver
+gtxn 0 Sender
+==
+&&
+gtxn 5 ConfigAssetManager
+gtxn 0 Sender
+==
+&&
+byte "C"
+app_global_get
+gtxn 6 Receiver
 ==
 &&
 bnz finished
 
 createlisting:
 global GroupSize
-int 4
+int 5
 ==
 bz failed
 gtxn 0 TypeEnum
@@ -70,10 +88,10 @@ gtxn 0 Sender
 gtxn 3 AssetSender
 ==
 &&
-byte "MyNFTPrice"
-gtxna 0 ApplicationArgs 1
-btoi
-app_local_put
+//byte "MyNFTPrice"
+//gtxna 0 ApplicationArgs 1
+//btoi
+//app_local_put
 gtxn 3 TypeEnum
 int axfer
 ==
@@ -82,7 +100,14 @@ gtxn 3 AssetReceiver
 byte "E"
 app_global_get
 ==
-//&&
+gtxn 4 AssetSender
+gtxn 1 Sender
+==
+&&
+gtxn 4 ConfigAssetManager
+byte "E"
+app_global_get
+==
 bnz finished
 bz failed
 

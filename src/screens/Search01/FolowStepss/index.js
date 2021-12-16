@@ -13,11 +13,11 @@ const FolowStepss = ({ className,onSub}) => {
       <div className={styles.list}>
         <div className={cn(styles.item, styles.done)}>
           <div className={styles.head}>
-            <div className={styles.icon}>
+            {/* <div className={styles.icon}>
               <Icon name="upload-file" size="24" />
-            </div>
+            </div> */}
             <div className={styles.details}>
-              <div className={styles.info}>Loading........</div>              
+              <div className={styles.info}>Please wait...</div>              
             </div>
           </div>
           {/* <button type="submit" className={cn("button done", styles.button)} onClick={onSubmitNFT()}>Done</button> */}
@@ -25,7 +25,7 @@ const FolowStepss = ({ className,onSub}) => {
           {/* <button type="submit" onClick={()=>dones()}>Start nowss</button> */}
         </div>
         <div className={styles.saving}>
-                  <span>Auto saving</span>
+                  {/* <span>Auto saving</span> */}
                   <Loader className={styles.loader} />
                 </div>
         

@@ -265,6 +265,7 @@ const dbcollection=async()=>{
             req.push(
             
               {
+                userSymbol:value.userSymbol,
                 title: value.id,
                 price: value.priceSet,
                 highestBid: value.keyId,
@@ -337,6 +338,7 @@ const dbcollection2=async()=>{
             req.push(
             
               {
+                userSymbol:value.userSymbol,
                 title: value.id,
                 price: value.priceSet,
                 highestBid: value.keyId,
@@ -412,6 +414,7 @@ const dbcollection3=async()=>{
             kreq3.push(
             
               {
+                userSymbol:value.userSymbol,
                 title: value.id,
                 price: value.priceSet,
                 highestBid: value.keyId,
@@ -486,6 +489,7 @@ const dbcollection4=async()=>{
             kreq4.push(
             
               {
+                userSymbol:value.userSymbol,
                 title: value.id,
                 price: value.priceSet,
                 highestBid: value.keyId,
@@ -557,6 +561,7 @@ const dbcallalgolikes=async()=>{
           req.push(
             
             {
+              userSymbol:value.userSymbol,
               title: value.id,
               price: value.priceSet,
               highestBid: value.keyId,
@@ -673,6 +678,7 @@ const dbcallsalealgo=async()=>{
           let value=d.val();
           req.push(            
             {
+              userSymbol:value.userSymbol,
               title: value.id,
               price: value.priceSet,
               highestBid: value.keyId,
@@ -736,6 +742,7 @@ const dbcallalgo=async()=>{
           let value=d.val();
           req.push(            
             {
+              userSymbol:value.userSymbol,
               title: value.id,
               price: value.priceSet,
               highestBid: value.keyId,
@@ -801,16 +808,14 @@ const dbcallalgobuy=async()=>{
     let getalgo=localStorage.getItem("wallet");
     
     //let kreq =[];
-    firebase.database().ref("imagerefbuy").child(getalgo).on("value", (data) => {
-
-      
+    firebase.database().ref("imagerefbuy").child(getalgo).on("value", (data) => {      
       if (data) {
         data.forEach((d) => {
           //console.log("keycheck",d.key)
           let value=d.val();
-          req.push(
-            
+          req.push(            
             {
+              userSymbol:value.userSymbol,
               title: value.id,
               price: value.priceSet,
               highestBid: value.keyId,
@@ -1131,7 +1136,7 @@ console.log("programop",program)
                   
                 )}
                 {activeIndex === 1 && (
-                  <Items class={styles.items} items={getImgreffalgobuy} />
+                  <Itemss class={styles.items} items={getImgreffalgobuy} />
                   // bids.slice(0, 6)
                 )}
 

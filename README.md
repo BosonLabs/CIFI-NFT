@@ -1,4 +1,30 @@
-# !!!!! LivePreview created only for easy viewing of pages, you can remove it by setting the variable LivePreview false (the path to the file - src/components/Page/index.js => const livePreview = false)
+# HOW TO CONNECT WALLET ?
+1.Begin by clicking a button in a dApp that says something like Connect Wallet Option
+2.Tap to choose which account to connect
+3.Choose an account to connect
+4.That's it! The transactions are sent back to the dApp
+
+# HOW TO CREATE NFT(ASA) ?
+1.Upload your file
+2.Enter your NFT Name 
+3.Enter your Description
+4.Clicking a button in wallet connect
+
+# HOW TO CREATE LISTING YOUR NFT(ASA) ?
+1.Enter your prize
+2.Clicking a button in wallet connect
+
+# HOW TO SALE YOUR NFT(ASA) ?
+1.Clicking a button in your NFT(ASA)
+
+# HOW TO BUY NFT(ASA) ?
+1.Clicking a button in NFT(ASA)
+2.Clicking a button in wallet connect
+
+
+# Runs the app in the development mode.\
+
+Open [https://cifi-nft.vercel.app/](https://cifi-nft.vercel.app/) to view it in the browser.
 
 # Getting Started with Create React App
 

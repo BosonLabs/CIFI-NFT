@@ -73,6 +73,7 @@ const Search = () => {
           const a=d.val();
           Object.keys(a).map(async(b)=>{                                        
               req.push({
+                userSymbol:a[b].userSymbol,
                 title: a[b].id,
                 price: a[b].priceSet,
                 highestBid: a[b].keyId,

@@ -1,4 +1,5 @@
 /* global AlgoSigner */
+import {ExcelRenderer, OutTable} from 'react-excel-renderer';
 import React, { useState,useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import cn from "classnames";
@@ -23,6 +24,8 @@ const myAlgoWallet = new MyAlgoConnect();
 
 const Upload = () => {
   
+  const [files,setfiles]= useState([]);
+  const [Ano,setAno]= useState([]);
   const [selected, setSelected] = React.useState("Minor League");
   const [selectedImg, setSelectedImg] = React.useState("");
   console.log("Selec",selectedImg)
@@ -215,7 +218,7 @@ const onSubmitNFT = async (event) => {
     }
     else{
     ta=tname;
-    tb='ALGO';
+    tb='CIFI';
     te=1000;
     let idget="";
     console.log("uploadonecheck",ta);
@@ -322,8 +325,9 @@ algodClient.healthCheck().do()
                       const db = ref2.push().key;                         
                       const db2 = ref22.push().key;                         
                       console.log("dbcheck",db)
-                      ref2.child(db).set({id:idget,imageUrl:Img,priceSet:"",cAddress:txasset,keyId:db,userName:ta,userSymbol:tb,
-                      ipfsUrl:Img,ownerAddress:localStorage.getItem("wallet"),soldd:"",extra1:"",previousoaddress:"",datesets:dateset,
+                      ref2.child(db).set({id:idget,imageUrl:Img,priceSet:"",cAddress:txasset,keyId:db,userName:ta,
+                      userSymbol:tb,ipfsUrl:Img,ownerAddress:localStorage.getItem("wallet"),soldd:"",extra1:"",
+                      previousoaddress:"",datesets:dateset,
                       whois:'',
                       league:selected,team:selected2,type:selected3,
                       teamlogo:selectedImg,dimen:selected4,description:tdescription,history:"",Mnemonic:""})
@@ -454,7 +458,7 @@ const creatapplication=async(idget,txxid)=>{
   // declare application state storage (immutable)
   let localInts = 1;
   let localBytes = 0;
-  let globalInts = 0;
+  let globalInts = 2;
   let globalBytes = 2;
    
   // helper function to compile program source  
@@ -905,7 +909,7 @@ const appoptin=async(assetID,responsetxId,addresseswall)=>{
   const algosdk = require('algosdk');  
   const algodclient = new algosdk.Algodv2('', 'https://api.testnet.algoexplorer.io', '');
   const myAlgoConnect = new MyAlgoConnect();
-  let appId="49393545";
+  let appId="50714558";
   try {
     //const accounts = await myAlgoWallet.connect();
     //const addresses = accounts.map(account => account.address);
@@ -937,7 +941,7 @@ const storedb=async(assetID,responsetxId,addresseswall)=>{
   console.log("Img",Img)
   console.log("tname",tname)  
               //db added here 
-              let appId="49393545";
+              let appId="50714558";
               let ref2=fireDb.database().ref(`imagerefAlgo/${addresseswall}`);
               let ref22=fireDb.database().ref(`imagerefAlgolt`);   
                             let dateset=new Date().toDateString();
@@ -945,14 +949,14 @@ const storedb=async(assetID,responsetxId,addresseswall)=>{
                             const db = ref2.push().key;                         
                             //const db2 = ref22.push().key;                         
                             console.log("dbcheck",db)
-                            ref2.child(db).set({id:assetID,imageUrl:Img,priceSet:"",cAddress:"",keyId:db,userName:tname,userSymbol:"ALGOS",
+                            ref2.child(db).set({id:assetID,imageUrl:Img,priceSet:"",cAddress:"",keyId:db,userName:tname,userSymbol:"CIFI",
                             ipfsUrl:Img,ownerAddress:addresseswall,soldd:"",extra1:"",previousoaddress:"",datesets:dateset,
                             whois:'',
                             league:selected,team:selected2,type:selected3,
                             teamlogo:selectedImg,dimen:selected4,description:tdescription,history:"",Mnemonic:"",applicationid:appId,usdcids:assetID,escrowaddress:""})
                             .then(()=>{
                             ref22.child(db).set({id:assetID,imageUrl:Img,priceSet:"",cAddress:"",keyId:db,
-                            userName:tname,userSymbol:"ALGOS",
+                            userName:tname,userSymbol:"CIFI",
                             ipfsUrl:Img,ownerAddress:addresseswall,soldd:"",extra1:"",
                             previousoaddress:"",datesets:dateset,whois:'',
                             league:selected,team:selected2,type:selected3,teamlogo:selectedImg,dimen:selected4,
@@ -1011,200 +1015,64 @@ const storedb=async(assetID,responsetxId,addresseswall)=>{
 }
 
 
-
-const Atomic = async () => {
-  try {
-    const algosdk = require('algosdk');  
-    const accounts = await myAlgoWallet.connect();
-    const addresses = accounts.map(account => account.address);
-    const algodclient = new algosdk.Algodv2('', 'https://api.testnet.algoexplorer.io', '');
-    const params = await algodclient.getTransactionParams().do();
-
-    //lsig creation
-    let data = `#pragma version 5
-    gtxn 0 TypeEnum
-    int 4
-    ==
-    bnz opt_in
-
-    gtxn 0 TypeEnum
-    int 5
-    ==
-    gtxn 0 ApplicationArgs 0
-    byte "createlisting"
-    ==
-    &&
-    bnz createlisting
-
-    gtxn 0 TypeEnum
-    int 5
-    ==
-    gtxn 0 ApplicationArgs 0
-    byte "Buynow"
-    ==
-    &&
-    bnz buynow
-
-
-    opt_in:
-    int 1
-    return
-    createlisting:
-    global GroupSize
-    int 5
-    ==
-    gtxn 0 TypeEnum
-    int 6
-    ==
-    &&
-    // The specific App ID must be called
-    // This should be changed after creation
-    gtxn 0 ApplicationID
-    int 49393545
-    ==
-    &&
-    // The applicaiton call must either be
-    // A general applicaiton call or a delete
-    // call
-    gtxn 0 OnCompletion
-    int NoOp
-    ==
-    int DeleteApplication
-    gtxn 0 OnCompletion
-    ==
-    ||
-    //&&
-    int 1
-    return
-
-    buynow:
-    global GroupSize
-    int 7
-    ==
-    gtxn 0 TypeEnum
-    int 6
-    ==
-    &&
-    // The specific App ID must be called
-    // This should be changed after creation
-    gtxn 0 ApplicationID
-    int 49393545
-    ==
-    &&
-    // The applicaiton call must either be
-    // A general applicaiton call or a delete
-    // call
-    gtxn 0 OnCompletion
-    int NoOp
-    ==
-    int DeleteApplication
-    gtxn 0 OnCompletion
-    ==
-    ||
-    &&
-    int 1
-    return`;
-    let results = await algodclient.compile(data).do();
-    console.log("Hash = " + results.hash);
-    console.log("Result = " + results.result);
-
-    let program = new Uint8Array(Buffer.from(results.result, "base64"));
-    
-    const lsig = algosdk.makeLogicSig(program);
-    //lsig ending
-
-    let sender = localStorage.getItem('wallet');
-    let appid  = 50330482;
-    let nftid = 50338990;
-    let escrow = "6ASHZSD7DS32UCCAMJTN4VERBDLH4FRLAWMV6VYKBKCON2YHDUTRUGOAHY";
-    //let escrow = "DU7P5KOVYVJAL6KBKWZSPIFL65LZDOEIYM3AQ2YTCBBKVWLV62GFFQ555Q";
-    let appArgs1 =[];
-    appArgs1.push(new Uint8Array(Buffer.from("Buynow")));
-
-    const txn1 = algosdk.makeApplicationNoOpTxnFromObject({
-      from:localStorage.getItem('wallet'), 
-      suggestedParams: params, 
-      appIndex:parseInt(appid), 
-      appArgs:appArgs1
-  });
+const fileHandler = (event) => {
+  let fileObj = event.target.files[0];
   
-  const txn2 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-      suggestedParams:params,
-      from: localStorage.getItem('wallet'),
-      to: escrow, 
-      amount: 2000
-  });
-  const txn3 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-    suggestedParams:params,
-    from: localStorage.getItem('wallet'),
-    to: escrow, 
-    amount: 5000000
-});
-
-    const txn4 = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
-      suggestedParams:params,
-      from: escrow,
-      to: localStorage.getItem('wallet'),
-      amount: 1,
-      assetIndex: nftid
-    });
-
-    const txn5 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-      suggestedParams:params,
-      from: escrow,
-      to: localStorage.getItem('wallet'),
-      amount: 950000
-  });
-
-  console.log("ESCROW",escrow)
-  console.log("MANAGER",localStorage.getItem('wallet'))
-  const txn6 = algosdk.makeAssetConfigTxnWithSuggestedParamsFromObject({
-    from : escrow,
-    manager:localStorage.getItem('wallet'),
-    assetIndex: nftid,
-    reKeyTo: undefined,
-    note:undefined,
-    freeze:undefined,
-    reserve:undefined,
-    clawback:undefined,
-    suggestedParams:params,
-    strictEmptyAddressChecking:false
-  })
-  const txn7 = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-    suggestedParams:params,
-    from: escrow,
-    to: localStorage.getItem('wallet'), 
-    amount: 50000
-});
+  //just pass the fileObj as parameter
+  ExcelRenderer(fileObj, (err, resp) => {
+    if(err){
+      console.log(err);            
+    }
+    else{
+      console.log("Cols",resp)
+      console.log("Cols",resp.cols)
+      console.log("Rows",resp.rows)
+      // this.setState({
+      //   cols: resp.cols,
+      //   rows: resp.rows
+      // });
+    }
+  });               
   
-  const txnsToGroup = [ txn1, txn2 ,txn3, txn4, txn5, txn6, txn7];
-  const groupID = algosdk.computeGroupID(txnsToGroup)
-  txnsToGroup[0].group = groupID;
-  txnsToGroup[1].group = groupID;
-  txnsToGroup[2].group = groupID;
-  txnsToGroup[3].group = groupID;
-  txnsToGroup[4].group = groupID;
-  txnsToGroup[5].group = groupID;
-  txnsToGroup[6].group = groupID;
-  
-  const signedTx1 = await myAlgoWallet.signTransaction(txnsToGroup[0].toByte());
-  const signedTx2 = await myAlgoWallet.signTransaction(txnsToGroup[1].toByte());
-  const signedTx3 = await myAlgoWallet.signTransaction(txnsToGroup[2].toByte());
-  const signedTx4 = algosdk.signLogicSigTransaction(txnsToGroup[3], lsig);
-  const signedTx5 = algosdk.signLogicSigTransaction(txnsToGroup[4], lsig);
-  const signedTx6 = algosdk.signLogicSigTransaction(txnsToGroup[5], lsig);
-  const signedTx7 = algosdk.signLogicSigTransaction(txnsToGroup[6], lsig);
-  
-
-
-const response = await algodclient.sendRawTransaction([signedTx1.blob,signedTx2.blob,signedTx3.blob,signedTx4.blob,signedTx5.blob,signedTx6.blob,signedTx7.blob]).do();
-console.log("TxID", JSON.stringify(response, null, 1));
-await waitForConfirmation(algodclient, response.txId);
-  } catch (err) {
-    console.error(err);
   }
+
+const fileSelectedHandler = (e) => {  
+  setfiles([e.target.files])  
 }
 
+const upload=()=>{  
+  console.log("hello",files[0])  
+//   Ano.forEach((d) => {            
+// console.log("hello2",d)  
+//   })
+  files.map((get)=>{
+    for(let i=0;i<get.length;i++){
+
+    const file = get[i]
+    console.log("oneone",file)
+    let reader = new window.FileReader()
+    Compress.imageFileResizer(file, 300, 300, 'JPEG', 10, 0,
+    uri => {
+      console.log("iuri",uri)
+      setImg(uri)
+    },
+    'base64'
+    );
+
+    reader.readAsArrayBuffer(file)
+    reader.onloadend = () => convertToBuffer(reader);    
+    console.log("Reader",reader)    
+
+    }
+    //event.stopPropagation()
+    //event.preventDefault()
+    //console.log("getin",get[1])
+    
+    
+  })
+}
+
+console.log("filesdisplay",files)
   return (
     <>
       <div className={cn("section", styles.section)}>
@@ -1212,13 +1080,15 @@ await waitForConfirmation(algodclient, response.txId);
           <div className={styles.wrapper}>
             <div className={styles.head}>
               <div className={cn("h2", styles.title)}>
-                Create single collectible
+                Create collectible
+                <input type="file" multiple onChange={fileHandler} />
+                <button type="button" onClick={()=>upload()}>Run</button>
               </div>
-              <button
+              {/* <button
                 className={cn("button-stroke button-small", styles.button)}
               >
                 Switch to Multiple
-              </button>
+              </button> */}
             </div>
             <br></br>
             <form className={styles.form} action="">            

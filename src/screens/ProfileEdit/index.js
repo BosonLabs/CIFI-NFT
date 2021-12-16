@@ -143,7 +143,10 @@ const ProfileEdit = () => {
     console.log("dateget",dateset)
     const db = refprofile.push().key;
     console.log("dbcheck",db)
-    refprofile.set({profileurl:Img,displayname:name,Bio:bio,Twitter:twitter,address:getalgo,dbkey:db,username:getname}).then(()=>{
+    refprofile.set({
+      profileurl:Img,displayname:name,Bio:bio,Twitter:twitter,
+      address:getalgo,dbkey:db,username:getname
+    }).then(()=>{
       setIsOpen(true)
     })
   }

@@ -19,7 +19,7 @@ import MyAlgoConnect from '@randlabs/myalgo-connect';
 import data from "../../escrow";
 const myAlgoWallet = new MyAlgoConnect();
 
-const Card = ({ className, item }) => {
+const Cardaftersale = ({ className, item }) => {
   console.log("resale",item)
   const [urlprize,setUrlprize] = useState(null);
   let history=useHistory();
@@ -138,12 +138,12 @@ const printAssetHolding = async function (algodclient, account, assetid) {
       let getalgo=localStorage.getItem("wallet");
       console.log("1",item.bid)
       console.log("2",item.highestBid)
-      console.log("3",item.category)
-      console.log("4",item.image2x)
+      console.log("3",item.category)//
+      console.log("4",item.image2x)//
       console.log("5",item.title)
       console.log("6",item.categoryText)
       console.log("7",item.counter)
-      console.log("8",item.image2x)
+      console.log("8",item.image2x)//
     const algosdk = require('algosdk');
     let idget="";
     const port = "";  
@@ -162,18 +162,18 @@ const printAssetHolding = async function (algodclient, account, assetid) {
       console.log("assetidget",txnInfo.transactions[0]["created-asset-index"])  
       console.log("end")  
       setIsOpens(true)
-      fireDb.database().ref(`imagerefexploreoneAlgos/${getalgo}`).child(item.highestBid).set({
-        id:idget,imageUrl:item.image,priceSet:item.price,cAddress:item.categoryText,keyId:item.highestBid,
-        userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
-        ownerAddress:item.bid,soldd:item.soldd,extra1:item.extra,
-        previousoaddress:item.previousaddress,datesets:item.date,
-        description:item.description,whois:'readytosale',history:item.url,Mnemonic:item.Mnemonic
-      }).then(()=>{
-        fireDb.database().ref(`imagerefAlgo/${getalgo}`).child(item.highestBid).remove();
-          console.log("remove db");
-          setIsOpens(false)
-          window.location.reload(false)   
-      })    
+      // fireDb.database().ref(`imagerefexploreoneAlgos/${getalgo}`).child(item.highestBid).set({
+      //   id:idget,imageUrl:item.image,priceSet:item.price,cAddress:item.categoryText,keyId:item.highestBid,
+      //   userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
+      //   ownerAddress:item.bid,soldd:item.soldd,extra1:item.extra,
+      //   previousoaddress:item.previousaddress,datesets:item.date,
+      //   description:item.description,whois:'readytosale',history:item.url,Mnemonic:item.Mnemonic
+      // }).then(()=>{
+      //   fireDb.database().ref(`imagerefAlgo/${getalgo}`).child(item.highestBid).remove();
+      //     console.log("remove db");
+      //     setIsOpens(false)
+      //     window.location.reload(false)   
+      // })    
     })().catch(e => {
         console.log(e);
     });  
@@ -270,15 +270,14 @@ const printAssetHolding = async function (algodclient, account, assetid) {
 
         //db here
 
-        fireDb.database().ref(`imagerefAlgo/${getalgo}`).child(item.highestBid).update({
+        fireDb.database().ref(`imagerefAlgo/${getalgo}`).child(item.highestBid).set({
           id:item.title,imageUrl:item.image,priceSet:parseInt(amountmul),cAddress:lsig.address(),keyId:item.highestBid,
           userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
           ownerAddress:item.bid,soldd:item.soldd,extra1:item.extra,
           previousoaddress:item.previousaddress,datesets:item.date,
           description:item.description,whois:'readytosale',history:item.url,
           Mnemonic:item.Mnemonic,applicationid:item.applicationid,usdcids:item.usdcids,
-          escrowaddress:lsig.address(),
-          league:item.league,team:item.team,type:item.type,
+          escrowaddress:lsig.address()        
         }).then(()=>{  
         setIsOpens(false);
         setIsOpenss(true)    
@@ -315,7 +314,8 @@ const printAssetHolding = async function (algodclient, account, assetid) {
         ownerAddress:item.bid,soldd:item.soldd,extra1:item.extra,
         previousoaddress:item.previousaddress,datesets:item.date,
         description:item.description,whois:'readytosale',history:item.url,Mnemonic:item.Mnemonic,
-        applicationid:item.applicationid,usdcids:item.usdcids,escrowaddress:item.escrowaddress
+        applicationid:item.applicationid,usdcids:item.usdcids,escrowaddress:item.escrowaddress,        
+        league:item.league,team:item.team,type:item.type,
       }).then(()=>{
         fireDb.database().ref(`imagerefAlgo/${getalgo}`).child(item.highestBid).remove();
           console.log("remove db");
@@ -323,7 +323,8 @@ const printAssetHolding = async function (algodclient, account, assetid) {
           window.location.reload(false)   
       })
     }
-    else{        
+    else{
+      
       fireDb.database().ref(`imagerefexploreoneAlgos/${getalgo}`).child(item.highestBid).set({
         id:item.title,imageUrl:item.image,priceSet:item.price,cAddress:item.categoryText,keyId:item.highestBid,
         userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
@@ -331,7 +332,7 @@ const printAssetHolding = async function (algodclient, account, assetid) {
         previousoaddress:item.previousaddress,datesets:item.date,
         description:item.description,whois:'readytosale',history:item.url,Mnemonic:item.Mnemonic,
         applicationid:item.applicationid,usdcids:item.usdcids,escrowaddress:item.escrowaddress,
-        //league:item.league,team:item.team,type:item.type,
+        // league:item.league,team:item.team,type:item.type,
       }).then(()=>{
         fireDb.database().ref(`imagerefAlgo/${getalgo}`).child(item.highestBid).remove();
           console.log("remove db");
@@ -485,4 +486,4 @@ const printAssetHolding = async function (algodclient, account, assetid) {
   );
 };
 
-export default Card;
+export default Cardaftersale;

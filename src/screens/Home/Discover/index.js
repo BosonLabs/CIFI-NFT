@@ -219,6 +219,7 @@ const Discover = () => {
             //const resdata1 = await nftdata.json();        
             //console.log("restdata1",resdata1)        
               req.push({
+                userSymbol:a[b].userSymbol,
                 title: a[b].id,
                 price: a[b].priceSet,
                 highestBid: a[b].keyId,
