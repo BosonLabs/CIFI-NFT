@@ -1,16 +1,16 @@
 /* global AlgoSigner */
-import {ExcelRenderer, OutTable} from 'react-excel-renderer';
-import React, { useState,useEffect } from "react";
+import {ExcelRenderer} from 'react-excel-renderer';
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import cn from "classnames";
 import styles from "./UploadDetails.module.sass";
-import Icon from "../../components/Icon";
-import TextInput from "../../components/TextInput";
-import Loader from "../../components/Loader";
+//import Icon from "../../components/Icon";
+//import TextInput from "../../components/TextInput";
+//import Loader from "../../components/Loader";
 import Compress from "react-image-file-resizer";
 import ipfs from "./ipfs";
 import fireDb2 from '../UploadDetails/firebase';
-import FolowStepsd from "./FolowStepsD";
+//import FolowStepsd from "./FolowStepsD";
 import Modald from "../../components/ModalD";
 import FolowStepsdr from "./FolowStepsdr";
 import FolowStep from "../../screens/Profile/FolowStep";
@@ -18,15 +18,15 @@ import FolowStep from "../../screens/Profile/FolowStep";
 import approvalProgramSourceInitial from "../../approve";
 import clearProgramSource from "../../clearstate";
 import data from "../../escrow";
-import axios from 'axios';
+//import axios from 'axios';
 import MyAlgoConnect from '@randlabs/myalgo-connect';
-const myAlgoWallet = new MyAlgoConnect();
+//const myAlgoWallet = new MyAlgoConnect();
 
 const UploadAll = () => {
   
   const [filess,setfiless]= useState([]);
   const [filess2,setfiless2]= useState([]);
-  const [filess3,setfiless3]= useState([]);
+//const [filess3,setfiless3]= useState([]);
   const [getRows,setRows]= useState([]);
   const [getRows2,setRows2]= useState([]);
   const [getRows3,setRows3]= useState([]);
@@ -731,8 +731,7 @@ const upload2=async()=>{
   let e=0;
         console.log("ExcelRows",getRows)
         let arr=[];
-        getRows.map(async(d)=>{                          
-          //await sleep(4000);
+        getRows.map(async(d)=>{                                    
           for(let j=0;j<=d.length;j++){
             console.log("excellength",d[j])
           if(d[j] === null || d[j] === undefined)
@@ -754,8 +753,7 @@ const upload=async()=>{
   let c=0
   let arr=[];
   filess.map((get)=>{                
-    for(let j=0;j<=get.length;j++){
-      //console.log("excellength",get[j])
+    for(let j=0;j<=get.length;j++){    
     if(get[j] === null || get[j] === undefined)
     console.log(get[j])          
     else
@@ -775,8 +773,7 @@ const upload3=async()=>{
   let c3=0
   let arr3=[];
   getRows3.map((get3)=>{                
-    for(let j=0;j<=get3.length;j++){
-      //console.log("excellength",get[j])
+    for(let j=0;j<=get3.length;j++){      
     if(get3[j] === null || get3[j] === undefined)
     console.log(get3[j])          
     else
@@ -798,7 +795,7 @@ const filesprintdynamic=async()=>{
   let count=0;
   for(let i=0;i<filess2.length;i++)
   {
-    for(let j=i;j===i;j++)
+  for(let j=i;j===i;j++)
   {
 
    for(let k=i;k===i;k++)

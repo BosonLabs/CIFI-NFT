@@ -1,6 +1,6 @@
 /* global AlgoSigner */
 import React, { useState } from "react";
-import { Link,useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import cn from "classnames";
 import styles from "./ConnectWallet.module.sass";
 import Icon from "../../components/Icon";
@@ -9,8 +9,8 @@ import 'reactjs-popup/dist/index.css';
 //import Popup from 'reactjs-popup';
 import FolowStepsd from "./FolowStepsd";
 import Modald from "../../components/ModalD";
-import fireDb from '../UploadDetails/firebase';
-import MyAlgo from '@randlabs/myalgo-connect';
+//import fireDb from '../UploadDetails/firebase';
+//import MyAlgo from '@randlabs/myalgo-connect';
 import ModalList from "../../components/ModalList";
 import FolowStepsList from "./FolowStepList";
 import ModalListmain from "../../components/ModalListmain";
@@ -62,7 +62,7 @@ AlgoSigner.accounts({
   ledger: 'TestNet'
 })
 .then((d) => {
-  let accounts = d; 
+  //let accounts = d; 
   console.log("listaccount",d)
   setisListtry(d)
   setIsOpenlisttry(true)  
