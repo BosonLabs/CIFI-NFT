@@ -1,16 +1,16 @@
 /* global AlgoSigner */
-import {ExcelRenderer, OutTable} from 'react-excel-renderer';
-import React, { useState,useEffect } from "react";
+import {ExcelRenderer} from 'react-excel-renderer';
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import cn from "classnames";
 import styles from "./UploadDetails.module.sass";
-import Icon from "../../components/Icon";
-import TextInput from "../../components/TextInput";
-import Loader from "../../components/Loader";
+//import Icon from "../../components/Icon";
+//import TextInput from "../../components/TextInput";
+//import Loader from "../../components/Loader";
 import Compress from "react-image-file-resizer";
 import ipfs from "./ipfs";
-import fireDb from './firebase';
-import FolowStepsd from "./FolowStepsD";
+import fireDb2 from '../UploadDetails/firebase';
+//import FolowStepsd from "./FolowStepsD";
 import Modald from "../../components/ModalD";
 import FolowStepsdr from "./FolowStepsdr";
 import FolowStep from "../../screens/Profile/FolowStep";
@@ -18,15 +18,15 @@ import FolowStep from "../../screens/Profile/FolowStep";
 import approvalProgramSourceInitial from "../../approve";
 import clearProgramSource from "../../clearstate";
 import data from "../../escrow";
-import axios from 'axios';
+//import axios from 'axios';
 import MyAlgoConnect from '@randlabs/myalgo-connect';
-const myAlgoWallet = new MyAlgoConnect();
+//const myAlgoWallet = new MyAlgoConnect();
 
-const Upload = () => {
+const UploadAll = () => {
   
   const [filess,setfiless]= useState([]);
   const [filess2,setfiless2]= useState([]);
-  const [filess3,setfiless3]= useState([]);
+//const [filess3,setfiless3]= useState([]);
   const [getRows,setRows]= useState([]);
   const [getRows2,setRows2]= useState([]);
   const [getRows3,setRows3]= useState([]);
@@ -165,40 +165,7 @@ const Upload = () => {
   console.log("getassetid",assetidget)
   console.log("description",tdescription)
   const [visibleModal, setVisibleModal] = useState(false);//open
-  const captureFile =(event) => {
-    event.stopPropagation()
-    event.preventDefault()
-    const file = event.target.files[0]
-    let reader = new window.FileReader()
-    Compress.imageFileResizer(file, 300, 300, 'JPEG', 10, 0,
-    uri => {
-      console.log("iuri",uri)
-      setImg(uri)
-    },
-    'base64'
-    );
-    reader.readAsArrayBuffer(file)
-    reader.onloadend = () => convertToBuffer(reader);    
-    console.log(reader)    
-  };
   
-const convertToBuffer = async(reader) => {
-  //file is converted to a buffer for upload to IPFS
-    const buffer = await Buffer.from(reader.result);
-  //set this buffer -using es6 syntax
-    setBuffer(buffer);
-    await ipfs.add(buffer, (err, ipfsHash) => {
-    //console.log(err,ipfsHash);
-    console.log("buff",buffer);
-    setIpfsHash(ipfsHash[0].hash);
-    console.log(ipfsHash[0].hash)
-    const CID = require('cids')
-    var cid = new CID(ipfsHash[0].hash)
-    //let ccp=cid.toV1().toBaseEncodedString('base32');
-    console.log("cid",cid.toV1().toBaseEncodedString('base32'));
-    setButtonopen(true)    
-        })        
-};
 
 const waitForConfirmation = async function (algodclient, txId) {
   let status = (await algodclient.status().do());
@@ -215,215 +182,11 @@ const waitForConfirmation = async function (algodclient, txId) {
     }
   };
 
-const onSubmitNFT = async (event) => {
-  event.preventDefault();  
-    //new write below
-    if(localStorage.getItem("wallet") === null || localStorage.getItem("wallet") === "0x" || localStorage.getItem("wallet") === undefined || localStorage.getItem("wallet") === ''){
-      console.log("Empty",localStorage.getItem("wallet"))
-    }
-    else{
-    ta=tname;
-    tb='CIFI';
-    te=1000;
-    let idget="";
-    console.log("uploadonecheck",ta);
-    console.log("uploadtwocheck",tb);
-    console.log("uploadtwocheck",te);
-    setVisibleModal(false)                        
-        const algosdk = require('algosdk');  
-        if(localStorage.getItem("net") === "mainnet")
-        {
-          let accounts;
-let txasset;
-const server = "https://mainnet-algorand.api.purestake.io/ps2";
-const port = "";  
-const token = {
-      'X-API-key' : 'SVsJKi8vBM1RwK1HEuwhU20hYmwFJelk8bagKPin',
-}
-
-let algodClient = new algosdk.Algodv2(token, server, port);
-AlgoSigner.connect()
-.then((d) => {
-console.log("tested1")
-algodClient.healthCheck().do()
-.then(d => { 
-  
-  AlgoSigner.accounts({
-    ledger: 'MainNet'
-  })
-  .then((d) => {
-    console.log("tested2",d)
-    accounts = d;
-    console.log("algoacc",localStorage.getItem("wallet"))
-    algodClient.getTransactionParams().do()
-.then((d) => {
-  let txParamsJS = d;
-  console.log("txparamsJS",txParamsJS)
-  let program = new Uint8Array(Buffer.from("ASAEADoKAS0VIhJAACIvFSISQAAVLRUjEkAAAC4VIg1AAAAvFSQNQAAGLS4TQAAAJQ==", "base64"));
-  const args=[];
-  //args.push([...Buffer.from(idget.toString())]);
-  //const args=[];
-  args.push([...Buffer.from(localStorage.getItem("wallet"))]);//creator address
-  args.push([...Buffer.from('RWYPYF5XX40P2L6BCMZAA4ETP3S3HSF32QSWSGMXAU05NBJPKPHR6YCCAE')]);//lsig address
-  args.push([...Buffer.from('')]);
-
-  let lsig = algosdk.makeLogicSig(program,args);
-  //let thirumnemonic= 'empower twist carpet lawsuit across tape add leopard prevent abandon squeeze egg clown river funny sea labor level scheme race crime mystery party absent exist'
-  //var recoveredAccount1 = algosdk.mnemonicToSecretKey(thirumnemonic);
-  const txn = algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({    
-    from: localStorage.getItem("wallet"),
-    assetName: tname,
-    unitName: tb,
-    total: 1,
-    decimals: 0,
-    note: AlgoSigner.encoding.stringToByteArray("nothing"),
-    //manager:lsig.address(),
-    manager:localStorage.getItem("wallet"),
-    reserve:localStorage.getItem("wallet"),
-    freeze: localStorage.getItem("wallet"),
-    clawback:localStorage.getItem("wallet"),
-    //AlgoSigner.encoding.stringToByteArray(document.getElementById('note').value),
-    suggestedParams: txParamsJS
-  });
-  console.log("txnprint",txn)
-  // Use the AlgoSigner encoding library to make the transactions base64
-  const txn_b64 = AlgoSigner.encoding.msgpackToBase64(txn.toByte());
-  
-  AlgoSigner.signTxn([{txn: txn_b64}])
-  .then((d) => {
-    console.log("signTx",d)
-    let signedTxs = d;
-    let signCodeElem = JSON.stringify(d, null, 2);
-    console.log("signcoderElem",signCodeElem)
-
-    AlgoSigner.send({
-      ledger: 'MainNet',
-      tx: signedTxs[0].blob
-    })
-    .then((d) => {
-      txasset = d.txId;
-      setassetid(d.txId)
-      console.log("txidprint",txasset)
-      AlgoSigner.algod({
-        ledger: 'MainNet',
-        path: '/v2/transactions/pending/' + txasset
-      })
-      .then((d) => {
-
-
-        //new code addedd
-        
-
-
-        //end new code added
-        console.log(d);        
-        //console.log("before",tx.txId)        
-      setIsOpens(true)
-        
-        let ref2=fireDb.database().ref(`imagerefAlgo/${localStorage.getItem("wallet")}`);
-        let ref22=fireDb.database().ref(`imagerefAlgolt`);
-    //.child(selected).child(selected2).child(accounts[0]);    
-
+// const onSubmitNFT = async (event) => {
+//   event.preventDefault();  
+//     //new write below
     
-                      let dateset=new Date().toDateString();
-                      console.log("dateget",dateset)
-                      const db = ref2.push().key;                         
-                      const db2 = ref22.push().key;                         
-                      console.log("dbcheck",db)
-                      ref2.child(db).set({id:idget,imageUrl:Img,priceSet:"",cAddress:txasset,keyId:db,userName:ta,
-                      userSymbol:tb,ipfsUrl:Img,ownerAddress:localStorage.getItem("wallet"),soldd:"",extra1:"",
-                      previousoaddress:"",datesets:dateset,
-                      whois:'',
-                      league:selected,team:selected2,type:selected3,
-                      teamlogo:selectedImg,dimen:selected4,description:tdescription,history:"",Mnemonic:""})
-                      .then(()=>{
-
-                      ref22.child(db).set({id:idget,imageUrl:Img,priceSet:"",cAddress:txasset,keyId:db,
-                      userName:ta,userSymbol:tb,
-                      ipfsUrl:Img,ownerAddress:localStorage.getItem("wallet"),soldd:"",extra1:"",
-                      previousoaddress:"",datesets:dateset,whois:'',
-                      league:selected,team:selected2,type:selected3,teamlogo:selectedImg,dimen:selected4,
-                      description:tdescription,history:"",Mnemonic:""})
-                      .then(()=>{
-                        setIsOpens(false)
-                      setIsOpen(true);
-                      })              
-                      })            
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-    })
-    .catch((e) => {
-      console.error(e);
-    });
-
-  })
-  .catch((e) => {
-    console.error(e);
-  });
-})
-.catch((e) => {
-  console.error(e);
-});
-  })
-  .catch((e) => {
-    console.error(e);
-  });
-
-})
-.catch(e => { 
-  console.error(e); 
-});
-
-
-})
-.catch((e) => {
-  console.error(e);
-});
-
-
-        }
-        else{
-setIsOpens(true)
-const server = "https://testnet-algorand.api.purestake.io/ps2";
-const port = "";  
-const token = {
-      'X-API-key' : 'SVsJKi8vBM1RwK1HEuwhU20hYmwFJelk8bagKPin',
-}
-let algodclient = new algosdk.Algodv2(token, server, port);
-const params = await algodclient.getTransactionParams().do();
-params.fee = 1000;
-params.flatFee = true;
-const myAlgoConnect = new MyAlgoConnect();
-//const accountswall = await myAlgoWallet.connect();
-//const addresseswall = accountswall.map(accountswall => accountswall.address);
-const txn = algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({    
-  from:localStorage.getItem('wallet'),
-  assetName: tname,
-  unitName: tb,
-  total: 1,
-  decimals: 0,
-  note: AlgoSigner.encoding.stringToByteArray("nothing"),
-  //manager:lsig.address(),
-  manager:localStorage.getItem('wallet'),
-  reserve:localStorage.getItem('wallet'),
-  freeze:localStorage.getItem('wallet'),
-  clawback:localStorage.getItem('wallet'),
-  suggestedParams: params
-});
-
-const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
-const response = await algodclient.sendRawTransaction(signedTxn.blob).do();
-console.log("optresponse",response)
-await waitForConfirmation(algodclient,response.txId);
-let ptx = await algodclient.pendingTransactionInformation(response.txId).do();
-let assetID = ptx["asset-index"];
-console.log("pendingass",assetID);        
-appoptin(assetID,response.txId,localStorage.getItem('wallet'))
-        }
-    }
-}
+// }
 
 const onSub=()=>{
   console.log("hello close")
@@ -911,32 +674,7 @@ const nocallof=()=>{
 }
 
 const appoptin=async(assetID,responsetxId,addresseswall)=>{
-  const algosdk = require('algosdk');  
-  const algodclient = new algosdk.Algodv2('', 'https://api.testnet.algoexplorer.io', '');
-  const myAlgoConnect = new MyAlgoConnect();
-  let appId="50714558";
-  try {
-    //const accounts = await myAlgoWallet.connect();
-    //const addresses = accounts.map(account => account.address);
-    //console.log("addressget",addresses)
-    //localStorage.getItem('wallet',addresses[0])
-    const params = await algodclient.getTransactionParams().do();
-  let transoptin = algosdk.makeApplicationOptInTxnFromObject({
-    from: localStorage.getItem('wallet'),      
-    appIndex:parseInt(appId),
-    note: undefined,
-    suggestedParams: params
-    });
-
-  const signedTxn = await myAlgoConnect.signTransaction(transoptin.toByte());
-  const response = await algodclient.sendRawTransaction(signedTxn.blob).do();
-  console.log("optresponse",response)  
-  storedb(assetID,responsetxId,addresseswall);
-  }
-  catch (err) {
-    console.error(err);    
-    storedb(assetID,responsetxId,addresseswall);
-  }
+  
 }
 
 const storedb=async(assetID,responsetxId,addresseswall)=>{
@@ -947,75 +685,7 @@ const storedb=async(assetID,responsetxId,addresseswall)=>{
   console.log("tname",tname)  
               //db added here 
               let appId="50714558";
-              let ref2=fireDb.database().ref(`imagerefAlgo/${addresseswall}`);
-              let ref22=fireDb.database().ref(`imagerefAlgolt`);   
-                            let dateset=new Date().toDateString();
-                            console.log("dateget",dateset)
-                            const db = ref2.push().key;                         
-                            //const db2 = ref22.push().key;                         
-                            console.log("dbcheck",db)
-                            ref2.child(db).set({id:assetID,imageUrl:Img,priceSet:"",cAddress:"",keyId:db,userName:tname,userSymbol:"CIFI",
-                            ipfsUrl:Img,ownerAddress:addresseswall,soldd:"",extra1:"",previousoaddress:"",datesets:dateset,
-                            whois:'',
-                            league:selected,team:selected2,type:selected3,
-                            teamlogo:selectedImg,dimen:selected4,description:tdescription,history:"",Mnemonic:"",applicationid:appId,usdcids:assetID,escrowaddress:""})
-                            .then(()=>{
-                            ref22.child(db).set({id:assetID,imageUrl:Img,priceSet:"",cAddress:"",keyId:db,
-                            userName:tname,userSymbol:"CIFI",
-                            ipfsUrl:Img,ownerAddress:addresseswall,soldd:"",extra1:"",
-                            previousoaddress:"",datesets:dateset,whois:'',
-                            league:selected,team:selected2,type:selected3,teamlogo:selectedImg,dimen:selected4,
-                            description:tdescription,history:"",Mnemonic:"",applicationid:appId,usdcids:assetID,escrowaddress:""})
-                            .then(()=>{     
-                      //add pinata here          
-                      //pinata          
-          //const axios = require('axios');
-          // let pinataApiKey='88348e7ce84879e143e1';
-          // let pinataSecretApiKey='e4e8071ff66386726f9fe1aebf2d3235a9f88ceb4468d4be069591eb78d4bf6f';
-          const pinataApiKey = "221cfff25de18e88d3d0";
-          const pinataSecretApiKey = "ddffffed103d82a6296a378c80ddd2b4280b0d8a51e6922122fd3817accb45ba";
-          const pinataSDK = require('@pinata/sdk');
-          const pinata = pinataSDK(pinataApiKey, pinataSecretApiKey);
-                      pinata.testAuthentication().then((result) => {
-                      //handle successful authentication here
-                      console.log(result);  
-                      let ge=ipfsHash;
-                      console.log("ipfsHash",ipfsHash);
-                              const body = {
-                                  message: ge
-                              };
-                              const options = {
-                                  pinataMetadata: {
-                                      name: tname,
-                                      keyvalues: {
-                                          customKey: 'customValue',
-                                          customKey2: 'customValue2'
-                                      }
-                                  },
-                                  pinataOptions: {
-                                      cidVersion: 0
-                                  }
-                              };
-                              pinata.pinJSONToIPFS(body, options).then((result) => {
-                                  //handle results here
-                                  console.log(result);
-                                  console.log("jsonresult")                                            
-                      setIsOpens(false)
-                      setIsOpen(true);
-                      //return appId;                                            
-                                }).catch((err) => {
-                                    //handle error here
-                                    console.log(err);
-                                });                        
-                              }).catch((err) => {
-                                  //handle error here
-                                  console.log(err);
-                              });                  
-                              //end pinata          
-                      //end pinata here                      
-                              
-                            })              
-                            })                                
+                            
   
 }
 
@@ -1061,8 +731,7 @@ const upload2=async()=>{
   let e=0;
         console.log("ExcelRows",getRows)
         let arr=[];
-        getRows.map(async(d)=>{                          
-          //await sleep(4000);
+        getRows.map(async(d)=>{                                    
           for(let j=0;j<=d.length;j++){
             console.log("excellength",d[j])
           if(d[j] === null || d[j] === undefined)
@@ -1084,8 +753,7 @@ const upload=async()=>{
   let c=0
   let arr=[];
   filess.map((get)=>{                
-    for(let j=0;j<=get.length;j++){
-      //console.log("excellength",get[j])
+    for(let j=0;j<=get.length;j++){    
     if(get[j] === null || get[j] === undefined)
     console.log(get[j])          
     else
@@ -1105,8 +773,7 @@ const upload3=async()=>{
   let c3=0
   let arr3=[];
   getRows3.map((get3)=>{                
-    for(let j=0;j<=get3.length;j++){
-      //console.log("excellength",get[j])
+    for(let j=0;j<=get3.length;j++){      
     if(get3[j] === null || get3[j] === undefined)
     console.log(get3[j])          
     else
@@ -1124,38 +791,274 @@ const upload3=async()=>{
 
 
 
-const filesprintdynamic=()=>{  
+const filesprintdynamic=async()=>{    
   let count=0;
   for(let i=0;i<filess2.length;i++)
   {
-    for(let j=i;j===i;j++)
+  for(let j=i;j===i;j++)
   {
 
    for(let k=i;k===i;k++)
      {
+
     console.log("dynamicname2",getRows33[i])          
     console.log("dynamicname1",getRows2[i])          
     console.log("dynamicfile",filess2[i])   
+            
+      let ipfsHashes=null; 
+      let uriset= null ;
       const file = filess2[i]
-      //let reader = new window.FileReader()
+      let reader = new window.FileReader()
       Compress.imageFileResizer(file, 300, 300, 'JPEG', 10, 0,
       uri => {
         console.log("iuri",uri)
+        uriset = uri ;
         setImg(uri)
       },
       'base64'
       );
-      //reader.readAsArrayBuffer(file)
-      //reader.onloadend = () => convertToBuffer(reader);    
-      //console.log(reader)        
-        count++;
+    reader.readAsArrayBuffer(file)
+    reader.onloadend = async() => {
+    //convertToBuffer(reader);    
+    const buffer = await Buffer.from(reader.result);
+    //set this buffer -using es6 syntax
+    setBuffer(buffer);
+    await ipfs.add(buffer,async(err, ipfsHash) => {
+    //console.log(err,ipfsHash);
+    console.log("buff",buffer);
+    ipfsHashes=ipfsHash[0].hash;
+    setIpfsHash(ipfsHash[0].hash);
+    console.log("Hash",ipfsHash[0].hash)
+    const CID = await require('cids')
+    var cid = new CID(ipfsHash[0].hash)
+    //let ccp=cid.toV1().toBaseEncodedString('base32');
+    console.log("cid",cid.toV1().toBaseEncodedString('base32'));
+    //setButtonopen(true)         
+        })        
     }
+
+    if(localStorage.getItem("wallet") === null || localStorage.getItem("wallet") === "0x" || localStorage.getItem("wallet") === undefined || localStorage.getItem("wallet") === ''){
+      console.log("Empty",localStorage.getItem("wallet"))
+    }
+    else{
+    await sleep(20000)
+    ta=getRows2[i];
+    tb='CIFI';
+    te=1000;
+    let idget="";
+    console.log("uploadonecheck",ta);
+    console.log("uploadtwocheck",tb);
+    console.log("uploadtwocheck",te);
+setVisibleModal(false)                        
+const algosdk = require('algosdk');            
+setIsOpens(true)
+const server = "https://testnet-algorand.api.purestake.io/ps2";
+const port = "";  
+const token = {
+      'X-API-key' : 'SVsJKi8vBM1RwK1HEuwhU20hYmwFJelk8bagKPin',
+}
+let algodclient = new algosdk.Algodv2(token, server, port);
+const params = await algodclient.getTransactionParams().do();
+params.fee = 1000;
+params.flatFee = true;
+//await sleep(4000)
+const myAlgoConnect =await new MyAlgoConnect();
+const txn = await algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({    
+  from:localStorage.getItem('wallet'),
+  assetName: getRows2[i],
+  unitName: tb,
+  total: 1,
+  decimals: 0,
+  note: AlgoSigner.encoding.stringToByteArray("nothing"),
+  //manager:lsig.address(),
+  manager:localStorage.getItem('wallet'),
+  reserve:localStorage.getItem('wallet'),
+  freeze:localStorage.getItem('wallet'),
+  clawback:localStorage.getItem('wallet'),
+  suggestedParams: params
+});
+
+const signedTxn = await myAlgoConnect.signTransaction(txn.toByte());
+const response = await algodclient.sendRawTransaction(signedTxn.blob).do();
+console.log("optresponse",response)
+await waitForConfirmation(algodclient,response.txId);
+let ptx = await algodclient.pendingTransactionInformation(response.txId).do();
+let assetID = ptx["asset-index"];
+console.log("pendingass",assetID);        
+  let appId="50714558";
+  try {    
+    const params = await algodclient.getTransactionParams().do();
+    let transoptin = await algosdk.makeApplicationOptInTxnFromObject({
+    from: localStorage.getItem('wallet'),      
+    appIndex:parseInt(appId),
+    note: undefined,
+    suggestedParams: params
+    });
+
+  const signedTxn = await myAlgoConnect.signTransaction(transoptin.toByte());
+  const response = await algodclient.sendRawTransaction(signedTxn.blob).do();
+  console.log("optresponse",response)  
+  //await storedb(assetID,response.txId,localStorage.getItem('wallet'));
+      let ref2=fireDb2.database().ref(`imagerefAlgo/${localStorage.getItem('wallet')}`);
+      let ref22=fireDb2.database().ref(`imagerefAlgolt`);   
+                            let dateset=new Date().toDateString();
+                            console.log("dateget",dateset)
+                            const db = ref2.push().key;                         
+                            //const db2 = ref22.push().key;                         
+                            console.log("dbcheck",db)
+                            await ref2.child(db).set({id:assetID,imageUrl:uriset,priceSet:"",cAddress:"",keyId:db,userName:getRows2[i],userSymbol:"CIFI",
+                            ipfsUrl:uriset,ownerAddress:localStorage.getItem('wallet'),soldd:"",extra1:"",previousoaddress:"",datesets:dateset,
+                            whois:'',
+                            league:selected,team:selected2,type:selected3,
+                            teamlogo:selectedImg,dimen:selected4,description:getRows33[i],history:"",Mnemonic:"",applicationid:appId,usdcids:assetID,escrowaddress:""})
+                            .then(async()=>{
+                            await ref22.child(db).set({id:assetID,imageUrl:uriset,priceSet:"",cAddress:"",keyId:db,
+                            userName:getRows2[i],userSymbol:"CIFI",
+                            ipfsUrl:uriset,ownerAddress:localStorage.getItem('wallet'),soldd:"",extra1:"",
+                            previousoaddress:"",datesets:dateset,whois:'',
+                            league:selected,team:selected2,type:selected3,teamlogo:selectedImg,dimen:selected4,
+                            description:getRows33[i],history:"",Mnemonic:"",applicationid:appId,usdcids:assetID,escrowaddress:""})
+                            .then(async()=>{     
+                      //add pinata here          
+                      //pinata          
+          //const axios = require('axios');
+          // let pinataApiKey='88348e7ce84879e143e1';
+          // let pinataSecretApiKey='e4e8071ff66386726f9fe1aebf2d3235a9f88ceb4468d4be069591eb78d4bf6f';
+          const pinataApiKey = "221cfff25de18e88d3d0";
+          const pinataSecretApiKey = "ddffffed103d82a6296a378c80ddd2b4280b0d8a51e6922122fd3817accb45ba";
+          const pinataSDK = require('@pinata/sdk');
+          const pinata = await pinataSDK(pinataApiKey, pinataSecretApiKey);
+                      await pinata.testAuthentication().then(async(result) => {
+                      //handle successful authentication here
+                      console.log(result);  
+                      let ge=ipfsHashes;                      
+                      console.log("ipfsHash",ipfsHash);
+                      console.log("ipfsHashs",ipfsHashes);
+                              const body = {
+                                  message: ge
+                              };
+                              const options = {
+                                  pinataMetadata: {
+                                      name: getRows2[i],
+                                      keyvalues: {
+                                          customKey: 'customValue',
+                                          customKey2: 'customValue2'
+                                      }
+                                  },
+                                  pinataOptions: {
+                                      cidVersion: 0
+                                  }
+                              };
+                              await pinata.pinJSONToIPFS(body, options).then(async(result) => {
+                                  //handle results here
+                                  console.log(result);
+                                  console.log("jsonresult")                                            
+                      setIsOpens(false)
+                      setIsOpen(true);
+                      //return appId;                                            
+                                }).catch((err) => {
+                                    //handle error here
+                                    console.log(err);
+                                });                        
+                              }).catch((err) => {
+                                  //handle error here
+                                  console.log(err);
+                              });                  
+                              //end pinata          
+                      //end pinata here                      
+                              
+                            })              
+                            })              
+          await sleep(2000)
+  }
+  catch (err) {
+    console.error(err);    
+    await sleep(2000)
+    
+    let ref2=fireDb2.database().ref(`imagerefAlgo/${localStorage.getItem('wallet')}`);
+      let ref22=fireDb2.database().ref(`imagerefAlgolt`);   
+                            let dateset=new Date().toDateString();
+                            console.log("dateget",dateset)
+                            const db = ref2.push().key;                         
+                            //const db2 = ref22.push().key;                         
+                            console.log("dbcheck",db)
+                            await ref2.child(db).set({id:assetID,imageUrl:uriset,priceSet:"",cAddress:"",keyId:db,userName:getRows2[i],userSymbol:"CIFI",
+                            ipfsUrl:uriset,ownerAddress:localStorage.getItem('wallet'),soldd:"",extra1:"",previousoaddress:"",datesets:dateset,
+                            whois:'',
+                            league:selected,team:selected2,type:selected3,
+                            teamlogo:selectedImg,dimen:selected4,description:getRows33[i],history:"",Mnemonic:"",applicationid:appId,usdcids:assetID,escrowaddress:""})
+                            .then(async()=>{
+                            await ref22.child(db).set({id:assetID,imageUrl:uriset,priceSet:"",cAddress:"",keyId:db,
+                            userName:getRows2[i],userSymbol:"CIFI",
+                            ipfsUrl:uriset,ownerAddress:localStorage.getItem('wallet'),soldd:"",extra1:"",
+                            previousoaddress:"",datesets:dateset,whois:'',
+                            league:selected,team:selected2,type:selected3,teamlogo:selectedImg,dimen:selected4,
+                            description:getRows33[i],history:"",Mnemonic:"",applicationid:appId,usdcids:assetID,escrowaddress:""})
+                            .then(async()=>{     
+                      //add pinata here          
+                      //pinata          
+          //const axios = require('axios');
+          // let pinataApiKey='88348e7ce84879e143e1';
+          // let pinataSecretApiKey='e4e8071ff66386726f9fe1aebf2d3235a9f88ceb4468d4be069591eb78d4bf6f';
+          const pinataApiKey = "221cfff25de18e88d3d0";
+          const pinataSecretApiKey = "ddffffed103d82a6296a378c80ddd2b4280b0d8a51e6922122fd3817accb45ba";
+          const pinataSDK = require('@pinata/sdk');
+          const pinata = await pinataSDK(pinataApiKey, pinataSecretApiKey);
+                      await pinata.testAuthentication().then(async(result) => {
+                      //handle successful authentication here
+                      console.log(result);  
+                      let ge=ipfsHashes;                      
+                      //IpfsHash
+                      console.log("ipfsHash",ipfsHashes);
+                              const body = {
+                                  message: ge
+                              };
+                              const options = {
+                                  pinataMetadata: {
+                                      name: getRows2[i],
+                                      keyvalues: {
+                                          customKey: 'customValue',
+                                          customKey2: 'customValue2'
+                                      }
+                                  },
+                                  pinataOptions: {
+                                      cidVersion: 0
+                                  }
+                              };
+                              await pinata.pinJSONToIPFS(body, options).then(async(result) => {
+                                  //handle results here
+                                  console.log(result);
+                                  console.log("jsonresult")                                            
+                      setIsOpens(false)
+                      setIsOpen(true);
+                      //return appId;                                            
+                                }).catch((err) => {
+                                    //handle error here
+                                    console.log(err);
+                                });                        
+                              }).catch((err) => {
+                                  //handle error here
+                                  console.log(err);
+                              });                  
+                              //end pinata          
+                      //end pinata here                      
+                              
+                            })              
+                            })              
+    
+  }
+
+      console.log("ReaderGet",reader)        
+      count++;
+    }
+  }
   }     
   }
   console.log("count",count)
 }
 
-
+// setName(event.target.value)
+// setDescription( event.target.value)
 
   return (
     <>
@@ -1166,7 +1069,7 @@ const filesprintdynamic=()=>{
               <div className={cn("h2", styles.title)}>
                 Create collectible
                 <br/>
-                <h6>images &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <h6 className={styles.category}>images &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="file" multiple onChange={fileSelectedHandler} />
                 <button
                   className={cn("button", styles.button)}
@@ -1177,7 +1080,7 @@ const filesprintdynamic=()=>{
                 </h6>
                 &nbsp;
                 
-                <h6>Name File &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <h6 className={styles.category}>Name File &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="file" onChange={fileHandler} />
                 <button
                   className={cn("button", styles.button)}
@@ -1187,7 +1090,7 @@ const filesprintdynamic=()=>{
                 </button>                 
                 </h6>
                 <br/>
-                <h6>Description File&nbsp;&nbsp;
+                <h6 className={styles.category}>Description File&nbsp;&nbsp;
                 <input type="file" onChange={fileHandler3} />
                 <button
                   className={cn("button", styles.button)}
@@ -1195,68 +1098,8 @@ const filesprintdynamic=()=>{
                   type="button">                  
                   <span>Run3</span>                  
                 </button>                 
-                </h6>
-                <br/>
-                <h6>Upload
-                <button
-                  className={cn("button", styles.button)}
-                  onClick={() => filesprintdynamic()}                  
-                  type="button">                  
-                  <span>Upload</span>                  
-                </button>                 
-                </h6>
-              </div>
-              {/* <button
-                className={cn("button-stroke button-small", styles.button)}
-              >
-                Switch to Multiple
-              </button> */}
-            </div>
-            <br></br>
-            <form className={styles.form} action="">            
-            {/* upload start */}
-              <div className={styles.list}>
-                <div className={styles.item}>
-                  <div className={styles.category}>Upload file</div>
-                  <div className={styles.note} >
-                  {/* onClick={()=>Getfile()} */}
-                    Drag or choose your file to upload 
-                  </div>
-                  <div className={styles.file}>
-                    <input className={styles.load} type="file" name="tfile" id="fileid" onChange = {captureFile} />
-                    <div className={styles.icon}>                      
-                      <Icon name="upload-file" size="24" />
-                    </div>
-                    <div className={styles.format}>
-                      PNG, GIF, WEBP, MP4 or MP3. Max 1Gb.                  
-                    </div>
-                  </div>
-                </div>
-
-                
-                {/* upload stop */}
-                <div className={styles.item}>
-                  <div className={styles.category}>Item Details</div>
-                  <div className={styles.fieldset}>
-                    <TextInput
-                      className={styles.field}
-                      label="Item name"
-                      name="Item"
-                      type="text"
-                      placeholder='e. g. Redeemable Bitcoin Card with logo"'
-                      required
-                      onChange={event => setName(event.target.value)}
-                    />
-                    <TextInput
-                      className={styles.field}
-                      lebel="Description"
-                      name="Description"
-                      type="text"
-                      placeholder="e. g. “After purchasing you will able to recived the logo...”"
-                      required
-                      onChange={event => setDescription( event.target.value)}
-                    />
-<div className={styles.fieldset} >
+                </h6>                
+                <div className={styles.fieldset} >
 <select onChange={changeSelectOptionHandler} style={{width:"100%"}}>
             <option value='Minor League'>Minor League</option>
             <option value='Major League'>Major League</option>
@@ -1313,66 +1156,25 @@ const filesprintdynamic=()=>{
             <option value='2D'>2D</option>
             <option value='3D'>3D</option>
           </select>
+          
 </div>
-<br></br>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.foot}>              
-                {/* <button
-                  className={cn("button-stroke tablet-show", styles.button)}
-                  onClick={() => onSubmitImage()}
-                  type="button"
-                >
-                  Preview
-                </button>
-                 */}
-
-                 {Buttonopen ? (
-                   
-                   <button
+<br/>
+                <h6 className={styles.category}>
+                <button
                   className={cn("button", styles.button)}
-                  onClick={() => callof()}
-                  // type="button" hide after form customization
-                  type="button"                              
-                >                  
-                  <span>Create item</span>
-                  <Icon name="arrow-next" size="10" />
-                </button>                                              
-
-                 ):(
-
-                  <button
-                  className={cn("button", styles.button)}
-                  onClick={() => nocallof()}
-                  // type="button" hide after form customization
-                  type="button"                              
-                >                  
-                  <span>Create item</span>
-                  <Icon name="arrow-next" size="10" />
-                </button>                                              
-                 )}
-                
-                {/* <div className={styles.saving}>
-                  <span>Auto saving</span>
-                  <Loader className={styles.loader} />
-                </div> */}
-                {/* <button
-                  className={cn("button", styles.button)}
-                  onClick={() => Atomic()}
-                  // type="button" hide after form customization
-                  type="button"                              
-                >                  
-                  <span>Atomic</span>
-                  <Icon name="arrow-next" size="10" />
-                </button>                                               */}
-              </div>
-            </form>
+                  onClick={() => filesprintdynamic()}                  
+                  type="button">                  
+                  <span>Upload</span>                  
+                </button>                 
+                </h6>
+              </div>              
+            </div>
+            <br></br>            
           </div>          
         </div>        
       </div>      
 <Modald visible={visibleModal} onClose={() => setVisibleModal(false)}>
-        <FolowStepsd className={styles.steps} onSubmitNFT={()=>onSubmitNFT}/>
+        {/* <FolowStepsd className={styles.steps} onSubmitNFT={()=>onSubmitNFT}/> */}
       </Modald>
       <Modald visible={isOpen} onClose={() => setIsOpen(false)}>
         <FolowStepsdr className={styles.steps} onSub={()=>onSub}/>
@@ -1384,4 +1186,4 @@ const filesprintdynamic=()=>{
   );
 };
 
-export default Upload;
+export default UploadAll;

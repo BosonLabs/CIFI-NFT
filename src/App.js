@@ -16,6 +16,8 @@ import Item from "./screens/Item";
 import PageList from "./screens/PageList";
 import "./style.css";
 import Profileuserview from "./screens/Profileuserview";
+import UploadDetailsAll from "./screens/UploadDetailsAll";
+
 
 function App() {  
   return (        
@@ -136,6 +138,15 @@ function App() {
           render={() => (
             <Page>
               <Profileuserview />
+            </Page>
+          )}
+        />
+        <Route
+          exact
+          path="/uploaddetailsall"
+          render={() => (
+            <Page>
+              <UploadDetailsAll />
             </Page>
           )}
         />
