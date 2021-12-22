@@ -1164,9 +1164,8 @@ const filesprintdynamic=()=>{
           <div className={styles.wrapper}>
             <div className={styles.head}>
               <div className={cn("h2", styles.title)}>
-                Create collectible
-                <br/>
-                <h6>images &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Create collectible                
+                {/* <h6>images &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="file" multiple onChange={fileSelectedHandler} />
                 <button
                   className={cn("button", styles.button)}
@@ -1204,7 +1203,7 @@ const filesprintdynamic=()=>{
                   type="button">                  
                   <span>Upload</span>                  
                 </button>                 
-                </h6>
+                </h6> */}
               </div>
               {/* <button
                 className={cn("button-stroke button-small", styles.button)}
@@ -1212,7 +1211,7 @@ const filesprintdynamic=()=>{
                 Switch to Multiple
               </button> */}
             </div>
-            <br></br>
+            {/* <br></br> */}
             <form className={styles.form} action="">            
             {/* upload start */}
               <div className={styles.list}>

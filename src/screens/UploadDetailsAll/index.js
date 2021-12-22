@@ -684,7 +684,7 @@ const storedb=async(assetID,responsetxId,addresseswall)=>{
   console.log("Img",Img)
   console.log("tname",tname)  
               //db added here 
-              let appId="50714558";
+              //let appId="50714558";
                             
   
 }
@@ -803,8 +803,7 @@ const filesprintdynamic=async()=>{
 
     console.log("dynamicname2",getRows33[i])          
     console.log("dynamicname1",getRows2[i])          
-    console.log("dynamicfile",filess2[i])   
-            
+    console.log("dynamicfile",filess2[i])               
       let ipfsHashes=null; 
       let uriset= null ;
       const file = filess2[i]
@@ -841,7 +840,7 @@ const filesprintdynamic=async()=>{
       console.log("Empty",localStorage.getItem("wallet"))
     }
     else{
-    await sleep(20000)
+    await sleep(2000)
     ta=getRows2[i];
     tb='CIFI';
     te=1000;
@@ -898,6 +897,8 @@ console.log("pendingass",assetID);
   const signedTxn = await myAlgoConnect.signTransaction(transoptin.toByte());
   const response = await algodclient.sendRawTransaction(signedTxn.blob).do();
   console.log("optresponse",response)  
+
+
   //await storedb(assetID,response.txId,localStorage.getItem('wallet'));
       let ref2=fireDb2.database().ref(`imagerefAlgo/${localStorage.getItem('wallet')}`);
       let ref22=fireDb2.database().ref(`imagerefAlgolt`);   
@@ -906,7 +907,8 @@ console.log("pendingass",assetID);
                             const db = ref2.push().key;                         
                             //const db2 = ref22.push().key;                         
                             console.log("dbcheck",db)
-                            await ref2.child(db).set({id:assetID,imageUrl:uriset,priceSet:"",cAddress:"",keyId:db,userName:getRows2[i],userSymbol:"CIFI",
+                            await ref2.child(db).set({
+                              id:assetID,imageUrl:uriset,priceSet:"",cAddress:"",keyId:db,userName:getRows2[i],userSymbol:"CIFI",
                             ipfsUrl:uriset,ownerAddress:localStorage.getItem('wallet'),soldd:"",extra1:"",previousoaddress:"",datesets:dateset,
                             whois:'',
                             league:selected,team:selected2,type:selected3,
@@ -953,8 +955,12 @@ console.log("pendingass",assetID);
                                   //handle results here
                                   console.log(result);
                                   console.log("jsonresult")                                            
+
+                                  //new
+                                  
+                                  //end
                       setIsOpens(false)
-                      setIsOpen(true);
+                      //setIsOpen(true);
                       //return appId;                                            
                                 }).catch((err) => {
                                     //handle error here
@@ -1030,7 +1036,7 @@ console.log("pendingass",assetID);
                                   console.log(result);
                                   console.log("jsonresult")                                            
                       setIsOpens(false)
-                      setIsOpen(true);
+                      //setIsOpen(true);
                       //return appId;                                            
                                 }).catch((err) => {
                                     //handle error here
@@ -1055,7 +1061,10 @@ console.log("pendingass",assetID);
   }     
   }
   console.log("count",count)
+  window.location.reload(false)
 }
+
+
 
 // setName(event.target.value)
 // setDescription( event.target.value)
