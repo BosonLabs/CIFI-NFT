@@ -1,4 +1,7 @@
 /* global AlgoSigner */
+import {ToastContainer,toast,Zoom,Bounce} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 import {ExcelRenderer} from 'react-excel-renderer';
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -14,7 +17,7 @@ import fireDb2 from '../UploadDetails/firebase';
 import Modald from "../../components/ModalD";
 import FolowStepsdr from "./FolowStepsdr";
 import FolowStep from "../../screens/Profile/FolowStep";
-//import axios from 'axios';
+
 import approvalProgramSourceInitial from "../../approve";
 import clearProgramSource from "../../clearstate";
 import data from "../../escrow";
@@ -885,19 +888,7 @@ let ptx = await algodclient.pendingTransactionInformation(response.txId).do();
 let assetID = ptx["asset-index"];
 console.log("pendingass",assetID);        
   let appId="50714558";
-  try {    
-    const params = await algodclient.getTransactionParams().do();
-    let transoptin = await algosdk.makeApplicationOptInTxnFromObject({
-    from: localStorage.getItem('wallet'),      
-    appIndex:parseInt(appId),
-    note: undefined,
-    suggestedParams: params
-    });
-
-  const signedTxn = await myAlgoConnect.signTransaction(transoptin.toByte());
-  const response = await algodclient.sendRawTransaction(signedTxn.blob).do();
-  console.log("optresponse",response)  
-
+  
 
   //await storedb(assetID,response.txId,localStorage.getItem('wallet'));
       let ref2=fireDb2.database().ref(`imagerefAlgo/${localStorage.getItem('wallet')}`);
@@ -974,86 +965,7 @@ console.log("pendingass",assetID);
                       //end pinata here                      
                               
                             })              
-                            })              
-          await sleep(2000)
-  }
-  catch (err) {
-    console.error(err);    
-    await sleep(2000)
-    
-    let ref2=fireDb2.database().ref(`imagerefAlgo/${localStorage.getItem('wallet')}`);
-      let ref22=fireDb2.database().ref(`imagerefAlgolt`);   
-                            let dateset=new Date().toDateString();
-                            console.log("dateget",dateset)
-                            const db = ref2.push().key;                         
-                            //const db2 = ref22.push().key;                         
-                            console.log("dbcheck",db)
-                            await ref2.child(db).set({id:assetID,imageUrl:uriset,priceSet:"",cAddress:"",keyId:db,userName:getRows2[i],userSymbol:"CIFI",
-                            ipfsUrl:uriset,ownerAddress:localStorage.getItem('wallet'),soldd:"",extra1:"",previousoaddress:"",datesets:dateset,
-                            whois:'',
-                            league:selected,team:selected2,type:selected3,
-                            teamlogo:selectedImg,dimen:selected4,description:getRows33[i],history:"",Mnemonic:"",applicationid:appId,usdcids:assetID,escrowaddress:""})
-                            .then(async()=>{
-                            await ref22.child(db).set({id:assetID,imageUrl:uriset,priceSet:"",cAddress:"",keyId:db,
-                            userName:getRows2[i],userSymbol:"CIFI",
-                            ipfsUrl:uriset,ownerAddress:localStorage.getItem('wallet'),soldd:"",extra1:"",
-                            previousoaddress:"",datesets:dateset,whois:'',
-                            league:selected,team:selected2,type:selected3,teamlogo:selectedImg,dimen:selected4,
-                            description:getRows33[i],history:"",Mnemonic:"",applicationid:appId,usdcids:assetID,escrowaddress:""})
-                            .then(async()=>{     
-                      //add pinata here          
-                      //pinata          
-          //const axios = require('axios');
-          // let pinataApiKey='88348e7ce84879e143e1';
-          // let pinataSecretApiKey='e4e8071ff66386726f9fe1aebf2d3235a9f88ceb4468d4be069591eb78d4bf6f';
-          const pinataApiKey = "221cfff25de18e88d3d0";
-          const pinataSecretApiKey = "ddffffed103d82a6296a378c80ddd2b4280b0d8a51e6922122fd3817accb45ba";
-          const pinataSDK = require('@pinata/sdk');
-          const pinata = await pinataSDK(pinataApiKey, pinataSecretApiKey);
-                      await pinata.testAuthentication().then(async(result) => {
-                      //handle successful authentication here
-                      console.log(result);  
-                      let ge=ipfsHashes;                      
-                      //IpfsHash
-                      console.log("ipfsHash",ipfsHashes);
-                              const body = {
-                                  message: ge
-                              };
-                              const options = {
-                                  pinataMetadata: {
-                                      name: getRows2[i],
-                                      keyvalues: {
-                                          customKey: 'customValue',
-                                          customKey2: 'customValue2'
-                                      }
-                                  },
-                                  pinataOptions: {
-                                      cidVersion: 0
-                                  }
-                              };
-                              await pinata.pinJSONToIPFS(body, options).then(async(result) => {
-                                  //handle results here
-                                  console.log(result);
-                                  console.log("jsonresult")                                            
-                      setIsOpens(false)
-                      //setIsOpen(true);
-                      //return appId;                                            
-                                }).catch((err) => {
-                                    //handle error here
-                                    console.log(err);
-                                });                        
-                              }).catch((err) => {
-                                  //handle error here
-                                  console.log(err);
-                              });                  
-                              //end pinata          
-                      //end pinata here                      
-                              
-                            })              
-                            })              
-    
-  }
-
+                            })                    
       console.log("ReaderGet",reader)        
       count++;
     }
@@ -1064,19 +976,84 @@ console.log("pendingass",assetID);
   window.location.reload(false)
 }
 
+const Toast=()=>{
+  toast.error("ERROR")
+  toast.success("SUCCESS")
+  toast.info("INFO")
+  toast.warn("WARNING")  
+
+}
+
+const stoast=()=>{
+  toast("Success",{
+  className :"custom-toast",
+  draggable :true,
+  position:toast.POSITION.BOTTOM_CENTER
+  });
+}
 
 
 // setName(event.target.value)
 // setDescription( event.target.value)
 
+const onetimeopt=async()=>{
+setIsOpens(true)
+const algosdk = require('algosdk');    
+const server = "https://testnet-algorand.api.purestake.io/ps2";
+const port = "";  
+const token = {
+      'X-API-key' : 'SVsJKi8vBM1RwK1HEuwhU20hYmwFJelk8bagKPin',
+}
+let algodclient = new algosdk.Algodv2(token, server, port);
+let appId="50714558";
+const myAlgoConnect =await new MyAlgoConnect();
+  try {    
+    const params = await algodclient.getTransactionParams().do();
+    let transoptin = await algosdk.makeApplicationOptInTxnFromObject({
+    from: localStorage.getItem('wallet'),      
+    appIndex:parseInt(appId),
+    note: undefined,
+    suggestedParams: params
+    });
+
+  const signedTxn = await myAlgoConnect.signTransaction(transoptin.toByte());
+  const response = await algodclient.sendRawTransaction(signedTxn.blob).do();
+  console.log("optresponse",response)  
+  setIsOpens(false)
+}
+catch (err) {
+  console.error(err);      
+  setIsOpens(false)
+  toast("YOU ARE ALREADY OPTTED",{
+    className :"error-toast",
+    draggable :true,
+    position:toast.POSITION.TOP_CENTER
+    });
+}
+
+  
+}
   return (
     <>
       <div className={cn("section", styles.section)}>
         <div className={cn("container", styles.container)}>
           <div className={styles.wrapper}>
+          {/* <button
+                  className={cn("button", styles.button)}
+                  onClick={() => Toast()}                  
+                  type="button">                  
+                  <span>Toast</span>                  
+                </button>                  */}
             <div className={styles.head}>
               <div className={cn("h2", styles.title)}>
-                Create collectible
+                MULTIPLE NFT UPLOAD
+                <br/>
+                <button
+                  className={cn("button", styles.button)}
+                  onClick={() => onetimeopt()}    
+                  type="button">                  
+                  <span>ONE TIME OPT</span>                  
+                </button>                 
                 <br/>
                 <h6 className={styles.category}>images &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="file" multiple onChange={fileSelectedHandler} />
@@ -1190,7 +1167,9 @@ console.log("pendingass",assetID);
       </Modald>
       <Modald visible={isOpens} >
         <FolowStep className={styles.steps} />
-      </Modald>                
+      </Modald>          
+      <ToastContainer draggable={false} transition={Zoom} autoClose={8000} closeOnClick = {false}/>      
+      <><ToastContainer position='top-center' draggable = {false} transition={Zoom} autoClose={8000} closeOnClick = {false}/></>
     </>
   );
 };
