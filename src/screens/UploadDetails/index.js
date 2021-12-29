@@ -227,7 +227,7 @@ const onSubmitNFT = async (event) => {
     }
     else{
     ta=tname;
-    tb='CIFI';
+    tb='ENFT';
     te=1000;
     let idget="";
     console.log("uploadonecheck",ta);
@@ -958,14 +958,14 @@ const storedb=async(assetID,responsetxId,addresseswall)=>{
                             const db = ref2.push().key;                         
                             //const db2 = ref22.push().key;                         
                             console.log("dbcheck",db)
-                            ref2.child(db).set({id:assetID,imageUrl:Img,priceSet:"",cAddress:"",keyId:db,userName:tname,userSymbol:"CIFI",
+                            ref2.child(db).set({id:assetID,imageUrl:Img,priceSet:"",cAddress:"",keyId:db,userName:tname,userSymbol:"ENFT",
                             ipfsUrl:Img,ownerAddress:addresseswall,soldd:"",extra1:"",previousoaddress:"",datesets:dateset,
                             whois:'',
                             league:selected,team:selected2,type:selected3,
                             teamlogo:selectedImg,dimen:selected4,description:tdescription,history:"",Mnemonic:"",applicationid:appId,usdcids:assetID,escrowaddress:""})
                             .then(()=>{
                             ref22.child(db).set({id:assetID,imageUrl:Img,priceSet:"",cAddress:"",keyId:db,
-                            userName:tname,userSymbol:"CIFI",
+                            userName:tname,userSymbol:"ENFT",
                             ipfsUrl:Img,ownerAddress:addresseswall,soldd:"",extra1:"",
                             previousoaddress:"",datesets:dateset,whois:'',
                             league:selected,team:selected2,type:selected3,teamlogo:selectedImg,dimen:selected4,
