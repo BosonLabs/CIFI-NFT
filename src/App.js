@@ -17,6 +17,7 @@ import PageList from "./screens/PageList";
 import "./style.css";
 import Profileuserview from "./screens/Profileuserview";
 import UploadDetailsAll from "./screens/UploadDetailsAll";
+import ProfilecopyAll from "./screens/ProfilecopyAll";
 
 
 function App() {  
@@ -147,6 +148,15 @@ function App() {
           render={() => (
             <Page>
               <UploadDetailsAll />
+            </Page>
+          )}
+        />
+        <Route
+          exact
+          path="/profilecopyall"
+          render={() => (
+            <Page>
+              <ProfilecopyAll />
             </Page>
           )}
         />

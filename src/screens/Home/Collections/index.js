@@ -379,13 +379,11 @@ console.log("getlt",getImgreffalgobuy)
 {getImgreffalgobuy.map((x, index) => (
   <Link className={styles.item} to={{pathname:`/profileuserview`,state:{address:x.bid}}}>              
   <div style={divStyle}>         
-        <div className={styles.preview} key={index}>
-          <img src={x.image} alt="Collectiond" style={{width:"150px",height:"150px",marginLeft:"2px",marginRight:"2px"}}/>
-        </div>        
-        {/* <div className={styles.avatar}>
-          <img src={x.image} alt="Avatar" />
-        </div> */}
+        <div className={styles.preview} key={index}>          
+          <img src={x.image} alt="Collectiond" style={{width:"150px",height:"150px",marginLeft:"2px",marginRight:"2px"}}/>    
+        </div>                        
         <div className={styles.author}>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <span>{x.counter}</span>
         </div>        
       </div>  

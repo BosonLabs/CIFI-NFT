@@ -170,6 +170,7 @@ const Upload = () => {
     event.preventDefault()
     const file = event.target.files[0]
     let reader = new window.FileReader()
+    try{
     Compress.imageFileResizer(file, 300, 300, 'JPEG', 10, 0,
     uri => {
       console.log("iuri",uri)
@@ -180,6 +181,9 @@ const Upload = () => {
     reader.readAsArrayBuffer(file)
     reader.onloadend = () => convertToBuffer(reader);    
     console.log(reader)    
+  }catch (err) {
+    console.error(err);    
+    }
   };
   
 const convertToBuffer = async(reader) => {
@@ -223,7 +227,7 @@ const onSubmitNFT = async (event) => {
     }
     else{
     ta=tname;
-    tb='CIFI';
+    tb='ENFT';
     te=1000;
     let idget="";
     console.log("uploadonecheck",ta);
@@ -954,14 +958,14 @@ const storedb=async(assetID,responsetxId,addresseswall)=>{
                             const db = ref2.push().key;                         
                             //const db2 = ref22.push().key;                         
                             console.log("dbcheck",db)
-                            ref2.child(db).set({id:assetID,imageUrl:Img,priceSet:"",cAddress:"",keyId:db,userName:tname,userSymbol:"CIFI",
+                            ref2.child(db).set({id:assetID,imageUrl:Img,priceSet:"",cAddress:"",keyId:db,userName:tname,userSymbol:"ENFT",
                             ipfsUrl:Img,ownerAddress:addresseswall,soldd:"",extra1:"",previousoaddress:"",datesets:dateset,
                             whois:'',
                             league:selected,team:selected2,type:selected3,
                             teamlogo:selectedImg,dimen:selected4,description:tdescription,history:"",Mnemonic:"",applicationid:appId,usdcids:assetID,escrowaddress:""})
                             .then(()=>{
                             ref22.child(db).set({id:assetID,imageUrl:Img,priceSet:"",cAddress:"",keyId:db,
-                            userName:tname,userSymbol:"CIFI",
+                            userName:tname,userSymbol:"ENFT",
                             ipfsUrl:Img,ownerAddress:addresseswall,soldd:"",extra1:"",
                             previousoaddress:"",datesets:dateset,whois:'',
                             league:selected,team:selected2,type:selected3,teamlogo:selectedImg,dimen:selected4,
@@ -1020,140 +1024,140 @@ const storedb=async(assetID,responsetxId,addresseswall)=>{
 }
 
 
-const fileHandler = (event) => {
-  let fileObj = event.target.files[0];    
-  ExcelRenderer(fileObj, (err, resp) => {
-    if(err){
-      console.log(err);            
-    }
-    else{
-      setRows(resp.rows)
-      console.log("Cols",resp)
-      console.log("Cols",resp.cols)
-      console.log("Rows",resp.rows)      
-    }
-  });                 
-  }
+// const fileHandler = (event) => {
+//   let fileObj = event.target.files[0];    
+//   ExcelRenderer(fileObj, (err, resp) => {
+//     if(err){
+//       console.log(err);            
+//     }
+//     else{
+//       setRows(resp.rows)
+//       console.log("Cols",resp)
+//       console.log("Cols",resp.cols)
+//       console.log("Rows",resp.rows)      
+//     }
+//   });                 
+//   }
 
 
-  const fileHandler3 = (event) => {
-    let fileObj3 = event.target.files[0];    
-    ExcelRenderer(fileObj3, (err, resp3) => {
-      if(err){
-        console.log(err);            
-      }
-      else{
-        setRows3(resp3.rows)
-        console.log("Cols3",resp3)
-        console.log("Cols3",resp3.cols)
-        console.log("Rows3",resp3.rows)      
-      }
-    });                 
-    }
+  // const fileHandler3 = (event) => {
+  //   let fileObj3 = event.target.files[0];    
+  //   ExcelRenderer(fileObj3, (err, resp3) => {
+  //     if(err){
+  //       console.log(err);            
+  //     }
+  //     else{
+  //       setRows3(resp3.rows)
+  //       console.log("Cols3",resp3)
+  //       console.log("Cols3",resp3.cols)
+  //       console.log("Rows3",resp3.rows)      
+  //     }
+  //   });                 
+  //   }
   
 
 
-const fileSelectedHandler = (e) => {  
-  setfiless([e.target.files])  
-}
+// const fileSelectedHandler = (e) => {  
+//   setfiless([e.target.files])  
+// }
 
-const upload2=async()=>{
-  let e=0;
-        console.log("ExcelRows",getRows)
-        let arr=[];
-        getRows.map(async(d)=>{                          
-          //await sleep(4000);
-          for(let j=0;j<=d.length;j++){
-            console.log("excellength",d[j])
-          if(d[j] === null || d[j] === undefined)
-          console.log(d[j])          
-          else
-          {
-            console.log(d[j])          
-            e++;   
-            arr.push(d[j])                   
-          }          
-          }          
-          setRows2(arr);
-        })
-        console.log("countc",e)
-        console.log("laststate",getRows2)
-}
+// const upload2=async()=>{
+//   let e=0;
+//         console.log("ExcelRows",getRows)
+//         let arr=[];
+//         getRows.map(async(d)=>{                          
+//           //await sleep(4000);
+//           for(let j=0;j<=d.length;j++){
+//             console.log("excellength",d[j])
+//           if(d[j] === null || d[j] === undefined)
+//           console.log(d[j])          
+//           else
+//           {
+//             console.log(d[j])          
+//             e++;   
+//             arr.push(d[j])                   
+//           }          
+//           }          
+//           setRows2(arr);
+//         })
+//         console.log("countc",e)
+//         console.log("laststate",getRows2)
+// }
 
-const upload=async()=>{    
-  let c=0
-  let arr=[];
-  filess.map((get)=>{                
-    for(let j=0;j<=get.length;j++){
-      //console.log("excellength",get[j])
-    if(get[j] === null || get[j] === undefined)
-    console.log(get[j])          
-    else
-    {
-      console.log(get[j])          
-      c++;   
-      arr.push(get[j])                   
-    }          
-    }          
-    setfiless2(arr);
-  })        
-  console.log("counte",c)
-  console.log("countfiles",filess2)          
-}
+// const upload=async()=>{    
+//   let c=0
+//   let arr=[];
+//   filess.map((get)=>{                
+//     for(let j=0;j<=get.length;j++){
+//       //console.log("excellength",get[j])
+//     if(get[j] === null || get[j] === undefined)
+//     console.log(get[j])          
+//     else
+//     {
+//       console.log(get[j])          
+//       c++;   
+//       arr.push(get[j])                   
+//     }          
+//     }          
+//     setfiless2(arr);
+//   })        
+//   console.log("counte",c)
+//   console.log("countfiles",filess2)          
+// }
 
-const upload3=async()=>{    
-  let c3=0
-  let arr3=[];
-  getRows3.map((get3)=>{                
-    for(let j=0;j<=get3.length;j++){
-      //console.log("excellength",get[j])
-    if(get3[j] === null || get3[j] === undefined)
-    console.log(get3[j])          
-    else
-    {
-      console.log(get3[j])          
-      c3++;   
-      arr3.push(get3[j])                   
-    }          
-    }          
-    setRows33(arr3);
-  })        
-  console.log("counte3",c3)
-  console.log("countfiles3",getRows33)          
-}
+// const upload3=async()=>{    
+//   let c3=0
+//   let arr3=[];
+//   getRows3.map((get3)=>{                
+//     for(let j=0;j<=get3.length;j++){
+//       //console.log("excellength",get[j])
+//     if(get3[j] === null || get3[j] === undefined)
+//     console.log(get3[j])          
+//     else
+//     {
+//       console.log(get3[j])          
+//       c3++;   
+//       arr3.push(get3[j])                   
+//     }          
+//     }          
+//     setRows33(arr3);
+//   })        
+//   console.log("counte3",c3)
+//   console.log("countfiles3",getRows33)          
+// }
 
 
 
-const filesprintdynamic=()=>{  
-  let count=0;
-  for(let i=0;i<filess2.length;i++)
-  {
-    for(let j=i;j===i;j++)
-  {
+// const filesprintdynamic=()=>{  
+//   let count=0;
+//   for(let i=0;i<filess2.length;i++)
+//   {
+//     for(let j=i;j===i;j++)
+//   {
 
-   for(let k=i;k===i;k++)
-     {
-    console.log("dynamicname2",getRows33[i])          
-    console.log("dynamicname1",getRows2[i])          
-    console.log("dynamicfile",filess2[i])   
-      const file = filess2[i]
-      //let reader = new window.FileReader()
-      Compress.imageFileResizer(file, 300, 300, 'JPEG', 10, 0,
-      uri => {
-        console.log("iuri",uri)
-        setImg(uri)
-      },
-      'base64'
-      );
-      //reader.readAsArrayBuffer(file)
-      //reader.onloadend = () => convertToBuffer(reader);    
-      //console.log(reader)        
-        count++;
-    }
-  }     
-  }
-  console.log("count",count)
-}
+//    for(let k=i;k===i;k++)
+//      {
+//     console.log("dynamicname2",getRows33[i])          
+//     console.log("dynamicname1",getRows2[i])          
+//     console.log("dynamicfile",filess2[i])   
+//       const file = filess2[i]
+//       //let reader = new window.FileReader()
+//       Compress.imageFileResizer(file, 300, 300, 'JPEG', 10, 0,
+//       uri => {
+//         console.log("iuri",uri)
+//         setImg(uri)
+//       },
+//       'base64'
+//       );
+//       //reader.readAsArrayBuffer(file)
+//       //reader.onloadend = () => convertToBuffer(reader);    
+//       //console.log(reader)        
+//         count++;
+//     }
+//   }     
+//   }
+//   console.log("count",count)
+// }
 
 
 
@@ -1164,9 +1168,8 @@ const filesprintdynamic=()=>{
           <div className={styles.wrapper}>
             <div className={styles.head}>
               <div className={cn("h2", styles.title)}>
-                Create collectible
-                <br/>
-                <h6>images &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Create collectible                
+                {/* <h6>images &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="file" multiple onChange={fileSelectedHandler} />
                 <button
                   className={cn("button", styles.button)}
@@ -1204,7 +1207,7 @@ const filesprintdynamic=()=>{
                   type="button">                  
                   <span>Upload</span>                  
                 </button>                 
-                </h6>
+                </h6> */}
               </div>
               {/* <button
                 className={cn("button-stroke button-small", styles.button)}
@@ -1212,7 +1215,7 @@ const filesprintdynamic=()=>{
                 Switch to Multiple
               </button> */}
             </div>
-            <br></br>
+            {/* <br></br> */}
             <form className={styles.form} action="">            
             {/* upload start */}
               <div className={styles.list}>

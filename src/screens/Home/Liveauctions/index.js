@@ -118,6 +118,7 @@ console.log("getlt",getImgreffalgobuy)
           <img src={x.image} alt="Collectiond" style={{width:"150px",height:"150px",marginLeft:"2px",marginRight:"2px"}}/>
         </div>                
         <div className={styles.author}>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <span>{x.counter}</span>
         </div>        
       </div>  

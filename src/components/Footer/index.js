@@ -15,7 +15,7 @@ import Modald from "../../components/ModalD";
 
 const items = [
   {
-    title: "Cifi",
+    title: "ELEMENT-NFT",
     menu: [
       {
         title: "Discover",
@@ -103,10 +103,10 @@ const Footers = () => {
             <Link className={styles.logo} to="/">
               <Imagecopy
                 className={styles.pic}
-                //src="/images/logocifisnew.png"
+                src="/images/elementnftuilogo-modified.png"
                 //srcDark="/images/logocifis.png"
-                src="https://cifi-mvp-nest.vercel.app/static/media/cifi.540fecbe.png"
-                srcDark="https://cifi-mvp-nest.vercel.app/static/media/cifi.540fecbe.png"
+                //src="https://cifi-mvp-nest.vercel.app/static/media/cifi.540fecbe.png"
+                srcDark="/images/elementnftuilogo-modified.png"
                 alt="Fitness Pro"
               />
             </Link>
