@@ -17,6 +17,7 @@ import FolowSteps from "../../screens/Profile/FolowSteps";
 import TextInput from "../../components/TextInput";
 import MyAlgoConnect from '@randlabs/myalgo-connect';
 import data from "../../escrow";
+import congigfile from "../../config.json"
 const myAlgoWallet = new MyAlgoConnect();
 
 const Card = ({ className, item }) => {
@@ -186,7 +187,7 @@ const printAssetHolding = async function (algodclient, account, assetid) {
           const algosdk = require('algosdk');  
           const algodclient = new algosdk.Algodv2('', 'https://api.testnet.algoexplorer.io', '');
           // const myAlgoConnect = new MyAlgoConnect();
-          let appId="50714558";
+          let appId=parseInt(congigfile['App-id']);
           //let idget=assetidgetc;
           let assetidgetc=parseInt(item.title)    
         try {            
