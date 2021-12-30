@@ -20,7 +20,10 @@ import clearProgramSource from "../../clearstate";
 import data from "../../escrow";
 import axios from 'axios';
 import MyAlgoConnect from '@randlabs/myalgo-connect';
+import congigfile from "../../config.json"
 const myAlgoWallet = new MyAlgoConnect();
+
+
 
 const Upload = () => {
   
@@ -918,7 +921,7 @@ const appoptin=async(assetID,responsetxId,addresseswall)=>{
   const algosdk = require('algosdk');  
   const algodclient = new algosdk.Algodv2('', 'https://api.testnet.algoexplorer.io', '');
   const myAlgoConnect = new MyAlgoConnect();
-  let appId="50714558";
+  let appId=parseInt(congigfile['App-id']);
   try {
     //const accounts = await myAlgoWallet.connect();
     //const addresses = accounts.map(account => account.address);
@@ -950,7 +953,7 @@ const storedb=async(assetID,responsetxId,addresseswall)=>{
   console.log("Img",Img)
   console.log("tname",tname)  
               //db added here 
-              let appId="50714558";
+              let appId=parseInt(congigfile['App-id']);
               let ref2=fireDb.database().ref(`imagerefAlgo/${addresseswall}`);
               let ref22=fireDb.database().ref(`imagerefAlgolt`);   
                             let dateset=new Date().toDateString();

@@ -16,6 +16,7 @@ import algosdk from 'algosdk';
 import MyAlgo from '@randlabs/myalgo-connect';
 import data from "../../escrow";
 import MyAlgoConnect from '@randlabs/myalgo-connect';
+import congigfile from "../../config.json"
 //const myAlgoWallet = new MyAlgoConnect();
 const CardBuy = ({ className, item }) => {
   console.log("itemprintcardbuy",item)
@@ -167,7 +168,9 @@ else{
   const algosdk = require('algosdk');  
   const algodclient = new algosdk.Algodv2('', 'https://api.testnet.algoexplorer.io', '');          
   //const myAlgoConnect = new MyAlgoConnect();
-  let appId="50714558";
+//  let appId="50714558";
+let appId=parseInt(congigfile['App-id']);
+  
   let params = await algodclient.getTransactionParams().do();
 //  comment out the next two lines to use suggested fee
   params.fee = 1000;
