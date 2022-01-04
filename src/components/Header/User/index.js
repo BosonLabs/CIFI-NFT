@@ -377,7 +377,8 @@ console.log(e);
             {/* <img src="/images/content/avatar-user.jpg" alt="Avatar" />  */}
             {/* <img src={"/images/logocifis.png"} alt="hello" />           */}
             {/* src={"https://cifi-mvp-nest.vercel.app/static/media/cifi.540fecbe.png"} */}
-<img src="/images/elementnftuilogo-modified.png" alt="hello" />          
+            {/* src="/images/elementnftuilogo-modified.png" */}
+<img src={"/images/favicon.png"} alt="hello" />          
             
             {/* srcDark="https://cifi-mvp-nest.vercel.app/static/media/cifi.540fecbe.png" */}
      </div>
@@ -395,7 +396,7 @@ console.log(e);
 <div className={styles.avatar}>            
           
 {/* <img src="/images/content/avatar-user.jpg" alt="Avatar" />  */}
-<img src="/images/elementnftuilogo-modified.png" alt="helloworld" />                       
+<img src="/images/favicon.png" alt="helloworld" />                       
 
 </div>
 
@@ -407,8 +408,8 @@ console.log(e);
             <div className={styles.avatar}>            
             
             {/* <img src="/images/content/avatar-user.jpg" alt="Avatar" />  */}
-            {/* <img src={"/images/logocifis.png"} alt="helloworld" />                        */}
-            <img src="/images/elementnftuilogo-modified.png" alt="helloworld" />                       
+            <img src={"/images/favicon.png"} alt="helloworld" />                       
+            {/* <img src="/images/elementnftuilogo-modified.png" alt="helloworld" />                        */}
             
      </div>
           ):(
