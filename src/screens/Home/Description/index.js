@@ -14,7 +14,7 @@ const Description = () => {
           <h1 className={cn("h1", styles.title)}>
             {/* Cifi Token with Cifi-labs */}
             CREATIVE ECONOMY WITH
-            ELEMENT-NFT NETWORK
+            CIFI-NFT NETWORK
           </h1>
           <div className={styles.text}>
             {/* A creative agency that lead and inspire */}

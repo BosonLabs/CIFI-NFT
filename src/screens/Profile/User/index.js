@@ -163,21 +163,21 @@ const User = ({ className, item }) => {
         (
         <>
         <div className={styles.avatar}>            
-<img src="/images/elementnftuilogo-modified.png" alt="Avatar" />
+<img src="/images/favicon.png" alt="Avatar" />
 </div>
         </>):(
           <>
                     { getprodata === "" || getprodata === null ? (
 
 <div className={styles.avatar}>            
-<img src="/images/elementnftuilogo-modified.png" alt="Avatar" />
+<img src="/images/favicon.png" alt="Avatar" />
 </div>
           ):(
 
             <>
             {getprodata.profileurl === "" || getprodata.profileurl ==="" || getprodata.profileurl ==="aaa" ? (
               <div className={styles.avatar}>            
-<img src="/images/elementnftuilogo-modified.png" alt="Avatar" />
+<img src="/images/favicon.png" alt="Avatar" />
 </div>
 
             ) :(

@@ -120,13 +120,13 @@ const Headers = () => {
             //src="/images/logocifisnew.png"
             //srcDark="/images/logocifis.png"
             //src="../../../public/favicon.png"
-            src="/images/elementnftuilogo-modified.png"
-            //src="https://cifi-mvp-nest.vercel.app/static/media/cifi.540fecbe.png"
-            //srcDark="https://cifi-mvp-nest.vercel.app/static/media/cifi.540fecbe.png"
-            srcDark="/images/elementnftuilogo-modified.png"
+            //src="/images/elementnftuilogo-modified.png"
+            src="https://cifi-mvp-nest.vercel.app/static/media/cifi.540fecbe.png"
+            srcDark="https://cifi-mvp-nest.vercel.app/static/media/cifi.540fecbe.png"
+            //srcDark="/images/elementnftuilogo-modified.png"
             alt="Fitness Pros"
           />   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>ELEMENT</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>CIFI</span>
         {/* <img src={Logo} alt="logo" />          */}
         </Link>           
         
