@@ -126,7 +126,7 @@ const Headers = () => {
             //srcDark="/images/elementnftuilogo-modified.png"
             alt="Fitness Pros"
           />   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>ELEMENT</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>CIFI</span>
         {/* <img src={Logo} alt="logo" />          */}
         </Link>           
         
