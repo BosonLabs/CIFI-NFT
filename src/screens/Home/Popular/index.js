@@ -240,12 +240,10 @@ const Popular = () => {
 
 const dateOptions = ["1", "7", "30"];
 const directionOptions = ["Sellers", "Buyers"];
-  const [date, setDate] = useState(dateOptions[2]);
-  const [direction, setDirection] = useState(directionOptions[0]);
-
-
-  console.log("ses",direction);
-  console.log("sesd",date);
+const [date, setDate] = useState(dateOptions[2]);
+const [direction, setDirection] = useState(directionOptions[0]);
+console.log("ses",direction);
+console.log("sesd",date);
 
   const[getI,setgetI]=useState([]);
   console.log("getImgalsell",getI)
