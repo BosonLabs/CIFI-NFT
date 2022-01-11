@@ -327,8 +327,8 @@ algodClient.healthCheck().do()
         //console.log("before",tx.txId)        
       setIsOpens(true)
         
-        let ref2=fireDb.database().ref(`imagerefAlgo/${localStorage.getItem("wallet")}`);
-        let ref22=fireDb.database().ref(`imagerefAlgolt`);
+        let ref2=fireDb.database().ref(`imagerefAlgo2/${localStorage.getItem("wallet")}`);
+        let ref22=fireDb.database().ref(`imagerefAlgolt2`);
     //.child(selected).child(selected2).child(accounts[0]);    
 
     
@@ -954,8 +954,8 @@ const storedb=async(assetID,responsetxId,addresseswall)=>{
   console.log("tname",tname)  
               //db added here 
               let appId=parseInt(congigfile['App-id']);
-              let ref2=fireDb.database().ref(`imagerefAlgo/${addresseswall}`);
-              let ref22=fireDb.database().ref(`imagerefAlgolt`);   
+              let ref2=fireDb.database().ref(`imagerefAlgo2/${addresseswall}`);
+              let ref22=fireDb.database().ref(`imagerefAlgolt2`);   
                             let dateset=new Date().toDateString();
                             console.log("dateget",dateset)
                             const db = ref2.push().key;                         

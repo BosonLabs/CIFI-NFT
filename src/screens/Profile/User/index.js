@@ -56,7 +56,7 @@ const User = ({ className, item }) => {
     else{  
       let getalgo=localStorage.getItem("wallet");
       let kreq =[];
-      fireDb.database().ref("profiledata").child(getalgo).on("value", (data) => {
+      fireDb.database().ref("profiledata2").child(getalgo).on("value", (data) => {
         if (data) {
 
           console.log("start",data.val())

@@ -891,8 +891,8 @@ console.log("pendingass",assetID);
   
 
   //await storedb(assetID,response.txId,localStorage.getItem('wallet'));
-      let ref2=fireDb2.database().ref(`imagerefAlgo/${localStorage.getItem('wallet')}`);
-      let ref22=fireDb2.database().ref(`imagerefAlgolt`);   
+      let ref2=fireDb2.database().ref(`imagerefAlgo2/${localStorage.getItem('wallet')}`);
+      let ref22=fireDb2.database().ref(`imagerefAlgolt2`);   
                             let dateset=new Date().toDateString();
                             console.log("dateget",dateset)
                             const db = ref2.push().key;                         

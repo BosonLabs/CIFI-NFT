@@ -99,7 +99,7 @@ let algodclient = new algosdk.Algodv2(token, server, port);
       let getalgo=localStorage.getItem("wallet");
 
     //const accounts = await  web3.eth.getAccounts();
-    fireDb.database().ref(`imagereflikes/${getalgo}`).child(item.highestBid).set({
+    fireDb.database().ref(`imagereflikes2/${getalgo}`).child(item.highestBid).set({
       id:item.title,imageUrl:item.image,priceSet:item.price,cAddress:item.categoryText,keyId:item.highestBid,
   userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
   ownerAddress:item.bid,soldd:item.soldd,extra1:item.extra,
@@ -124,7 +124,7 @@ let algodclient = new algosdk.Algodv2(token, server, port);
     }
     else{    
     let getalgo=localStorage.getItem("wallet");
-    fireDb.database().ref("profiledata").child(getalgo).on("value", (data) => {
+    fireDb.database().ref("profiledata2").child(getalgo).on("value", (data) => {
       if (data) {
         console.log("startcon",data.val())        
         let value=data.val();
@@ -285,8 +285,8 @@ await waitForConfirmation(algodclient, response.txId);
 
 //db change here
       
-fireDb.database().ref(`imagerefexploreoneAlgos/${item.bid}`).child(item.highestBid).remove().then(()=>{
-  fireDb.database().ref(`imagerefbuy/${localStorage.getItem("wallet")}`).child(item.highestBid).set({
+fireDb.database().ref(`imagerefexploreoneAlgos2/${item.bid}`).child(item.highestBid).remove().then(()=>{
+  fireDb.database().ref(`imagerefbuy2/${localStorage.getItem("wallet")}`).child(item.highestBid).set({
   id:item.title,imageUrl:item.image,priceSet:item.price,cAddress:item.categoryText,keyId:item.highestBid,
   userName:item.counter,userSymbol:item.userSymbol,ipfsUrl:item.ipfsurl,
   ownerAddress:localStorage.getItem("wallet"),soldd:item.soldd,extra1:item.extra,

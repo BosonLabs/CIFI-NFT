@@ -64,7 +64,7 @@ const Footers = () => {
   console.log("getalgo",getalgo)
   //getname=localStorage.getItem("walletname");
   //console.log("namewallet",getname)
-          let ref2=fireDb.database().ref(`emailregister/${getalgo}`);
+          let ref2=fireDb.database().ref(`emailregister2/${getalgo}`);
           let dateset=new Date().toDateString();
           console.log("dateget",dateset)
           const db = ref2.push().key;                         
