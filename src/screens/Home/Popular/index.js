@@ -264,7 +264,7 @@ console.log("sesd",date);
     //console.log("inside dbcallalgobuy function")
     //imagerefexplore//
     let req = [];
-    firebase.database().ref("imagerefbuy").on("value", (data) => {      
+    firebase.database().ref("imagerefbuy2").on("value", (data) => {      
       if (data) {
         data.forEach((d) => {          
           const a=d.val();
@@ -308,7 +308,7 @@ console.log("sesd",date);
     //console.log("inside dbcallalgobuy function")
     //imagerefexplore//
     let reqsale = [];
-    firebase.database().ref("imagerefexploreoneAlgos").on("value", (data) => {      
+    firebase.database().ref("imagerefexploreoneAlgos2").on("value", (data) => {      
       if (data) {
         data.forEach((d) => {          
           const a=d.val();
